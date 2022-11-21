@@ -25,4 +25,8 @@ export class NoteService {
         const newNote: NoteInterface = await this.noteRepository.addUserNote(userId, note);
         return newNote;
     }
+
+    public async updateUserNote(userId: String, noteData: NoteDto): Promise<NoteInterface> {
+
+    }
 }

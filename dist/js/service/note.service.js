@@ -36,5 +36,9 @@ class NoteService {
             return newNote;
         });
     }
+    updateUserNote(userId, noteData) {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    }
 }
 exports.NoteService = NoteService;

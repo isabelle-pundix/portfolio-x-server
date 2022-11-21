@@ -41,6 +41,20 @@ class NoteController {
                 throw error;
             }
         });
+        this.updateUserNote = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = req.user._id.toString();
+                const noteData = req.body;
+                const updatedNote = yield this.noteService.updateUserNote(userId, noteData);
+                res.status(201).json({
+                    message: "Note updated",
+                    note: updatedNote
+                });
+            }
+            catch (error) {
+                throw error;
+            }
+        });
         this.noteService = new note_service_1.NoteService();
     }
 }

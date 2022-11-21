@@ -27,3 +27,4 @@ yarn-error.log*
 /cert.pem
 /csr.pem
 /key.pem
+/.env

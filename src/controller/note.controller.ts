@@ -29,12 +29,28 @@ export class NoteController {
     public addUserNote = async (req: Request, res: Response): Promise<void> => {
         try {
             const userId: String = req.user._id.toString();
-            const noteData: NoteDto = req.body
+            const noteData: NoteDto = req.body;
             const newNote: NoteInterface = await this.noteService.addUserNote(userId, noteData);
             res.status(201).json(
                 {
                     message: "Note added",
                     note: newNote
+                }
+            );
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public updateUserNote = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const userId: String = req.user._id.toString();
+            const noteData: NoteDto = req.body;
+            const updatedNote: NoteInterface = await this.noteService.updateUserNote(userId, noteData);
+            res.status(201).json(
+                {
+                    message: "Note updated",
+                    note: updatedNote
                 }
             );
         } catch (error) {

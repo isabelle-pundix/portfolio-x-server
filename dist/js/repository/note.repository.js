@@ -61,6 +61,13 @@ class NoteRepository {
     }
     updateUserNote(user, note) {
         return __awaiter(this, void 0, void 0, function* () {
+            try {
+                //update embedded document
+                //update collection
+            }
+            catch (error) {
+                throw error;
+            }
         });
     }
     deleteUserNote(user, note) {

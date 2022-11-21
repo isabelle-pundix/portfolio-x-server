@@ -49,7 +49,13 @@ export class NoteRepository {
     }
 
     public async updateUserNote(user: UserInterface, note: NoteInterface): Promise<void> {
+        try {
+            //update embedded document
 
+            //update collection
+        } catch (error) {
+            throw error;
+        }
     }
 
     public async deleteUserNote(user: UserInterface, note: NoteInterface): Promise<void> {
