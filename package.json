@@ -1,0 +1,42 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "concurrently \"tsc -w\" \"nodemon dist/js/app.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Malcolm Tan 陈哲瑞 <malcolm@pundix.com>",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.7.2",
+    "mongoose-sequence": "^5.3.1",
+    "typescript": "^4.8.4"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.14",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/mongoose": "^5.11.97",
+    "@types/mongoose-sequence": "^3.0.7",
+    "@types/node": "^18.11.9",
+    "@types/validator": "^13.7.10",
+    "body-parser": "^1.20.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
+    "concurrently": "^7.5.0",
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.20"
+  },
+  "description": ""
+}
