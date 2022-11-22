@@ -45,12 +45,33 @@ export class NoteController {
     public updateUserNote = async (req: Request, res: Response): Promise<void> => {
         try {
             const userId: String = req.user._id.toString();
+            const noteId: String = req.params.noteId;
             const noteData: NoteDto = req.body;
-            const updatedNote: NoteInterface = await this.noteService.updateUserNote(userId, noteData);
+            const updatedNote: NoteInterface | null = await this.noteService.updateUserNote(userId, noteId, noteData);
+            const userNotes: Array<NoteInterface> = await this.noteService.getUserNotes(userId);
             res.status(201).json(
                 {
                     message: "Note updated",
-                    note: updatedNote
+                    note: updatedNote,
+                    userNotes: userNotes
+                }
+            );
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public deleteUserNote = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const userId: String = req.user._id.toString();
+            const noteId: String = req.params.noteId;
+            const deletedNote: NoteInterface | null = await this.noteService.deleteUserNote(userId, noteId);
+            const userNotes: Array<NoteInterface> = await this.noteService.getUserNotes(userId);
+            res.status(200).json(
+                {
+                    message: "Note deleted",
+                    note: deletedNote,
+                    userNotes: userNotes
                 }
             );
         } catch (error) {

@@ -36,8 +36,16 @@ class NoteService {
             return newNote;
         });
     }
-    updateUserNote(userId, noteData) {
+    updateUserNote(userId, noteId, noteData) {
         return __awaiter(this, void 0, void 0, function* () {
+            const updatedNote = yield this.noteRepository.updateUserNote(userId, noteId, noteData);
+            return updatedNote;
+        });
+    }
+    deleteUserNote(userId, noteId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const deletedNote = yield this.noteRepository.deleteUserNote(userId, noteId);
+            return deletedNote;
         });
     }
 }

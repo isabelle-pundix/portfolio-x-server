@@ -59,19 +59,46 @@ class NoteRepository {
             }
         });
     }
-    updateUserNote(user, note) {
+    updateUserNote(userId, noteId, note) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 //update embedded document
+                const updatedUserNote = yield this.User.findByIdAndUpdate({ _id: userId, "notes.id": noteId }, {
+                    $set: {
+                        content: note.content,
+                        group: note.group
+                    }
+                });
                 //update collection
+                const updatedNote = yield this.Note.findByIdAndUpdate({ _id: noteId }, {
+                    $set: {
+                        content: note.content,
+                        group: note.group
+                    }
+                });
+                return updatedNote;
             }
             catch (error) {
                 throw error;
             }
         });
     }
-    deleteUserNote(user, note) {
+    deleteUserNote(userId, noteId) {
         return __awaiter(this, void 0, void 0, function* () {
+            try {
+                //delete embedded document
+                const deletedUserNote = yield this.User.findByIdAndUpdate({ _id: userId, "notes.id": noteId }, {
+                    $pull: {
+                        notes: { _id: noteId }
+                    }
+                }, { new: true });
+                //delete from collection
+                const deletedNote = yield this.Note.findByIdAndDelete(noteId);
+                return deletedNote;
+            }
+            catch (error) {
+                throw error;
+            }
         });
     }
 }

@@ -44,11 +44,30 @@ class NoteController {
         this.updateUserNote = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const userId = req.user._id.toString();
+                const noteId = req.params.noteId;
                 const noteData = req.body;
-                const updatedNote = yield this.noteService.updateUserNote(userId, noteData);
+                const updatedNote = yield this.noteService.updateUserNote(userId, noteId, noteData);
+                const userNotes = yield this.noteService.getUserNotes(userId);
                 res.status(201).json({
                     message: "Note updated",
-                    note: updatedNote
+                    note: updatedNote,
+                    userNotes: userNotes
+                });
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+        this.deleteUserNote = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = req.user._id.toString();
+                const noteId = req.params.noteId;
+                const deletedNote = yield this.noteService.deleteUserNote(userId, noteId);
+                const userNotes = yield this.noteService.getUserNotes(userId);
+                res.status(200).json({
+                    message: "Note deleted",
+                    note: deletedNote,
+                    userNotes: userNotes
                 });
             }
             catch (error) {

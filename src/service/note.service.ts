@@ -26,7 +26,13 @@ export class NoteService {
         return newNote;
     }
 
-    public async updateUserNote(userId: String, noteData: NoteDto): Promise<NoteInterface> {
+    public async updateUserNote(userId: String, noteId: String, noteData: NoteDto): Promise<NoteInterface | null> {
+        const updatedNote: NoteInterface | null = await this.noteRepository.updateUserNote(userId, noteId, noteData);
+        return updatedNote;
+    }
 
+    public async deleteUserNote(userId: String, noteId: String): Promise<NoteInterface | null> {
+        const deletedNote: NoteInterface | null = await this.noteRepository.deleteUserNote(userId, noteId);
+        return deletedNote;
     }
 }
