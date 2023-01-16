@@ -20,7 +20,7 @@ router.put("/updateuser/:id", authMiddleware, userController.updateUser);
 router.delete("/deleteuser/:id", authMiddleware, userController.deleteUser);
 
 //Auth
-router.post("/registeruser", validationMiddleware(UserDto), authController.registerNewUser);
+router.post("/register", validationMiddleware(UserDto), authController.registerNewUser);
 router.post("/login", validationMiddleware(LogInDto), authController.logIn);
 router.post("/logout", authController.logOut);
 

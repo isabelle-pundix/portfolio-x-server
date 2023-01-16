@@ -74,7 +74,7 @@ class AuthService {
         });
     }
     createCookie(token) {
-        return `Authorization=${token.token}; HttpOnly; Max-Age=${token.expiresIn}`;
+        return `Authorization=${token.token}; Max-Age=${token.expiresIn}`;
     }
     createToken(user) {
         const expiresIn = 60 * 60; //1hr

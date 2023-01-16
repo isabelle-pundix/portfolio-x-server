@@ -42,6 +42,7 @@ const user_model_1 = __importDefault(require("../model/user.model"));
 const authTokenException_1 = require("../exceptions/authTokenException");
 function authMiddleware(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(req.cookies);
         const cookies = req.cookies;
         if (cookies && cookies.Authorization) {
             const pubKey = fs.readFileSync("./server.public.key", "utf8");

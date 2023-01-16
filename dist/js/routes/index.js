@@ -19,7 +19,7 @@ router.post("/adduser", auth_middleware_1.authMiddleware, (0, validation_middlew
 router.put("/updateuser/:id", auth_middleware_1.authMiddleware, userController.updateUser);
 router.delete("/deleteuser/:id", auth_middleware_1.authMiddleware, userController.deleteUser);
 //Auth
-router.post("/registeruser", (0, validation_middleware_1.validationMiddleware)(user_dto_1.UserDto), authController.registerNewUser);
+router.post("/register", (0, validation_middleware_1.validationMiddleware)(user_dto_1.UserDto), authController.registerNewUser);
 router.post("/login", (0, validation_middleware_1.validationMiddleware)(logIn_dto_1.LogInDto), authController.logIn);
 router.post("/logout", authController.logOut);
 //Notes

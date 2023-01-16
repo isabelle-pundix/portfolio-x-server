@@ -10,7 +10,12 @@ const app: Express = express();
 const PORT: string | number = process.env.PORT || 4000;
 
 //Initialize middlewares/functions and routes
-app.use(cors());
+const corsOptions = {
+    origin: "http://localhost:3000",
+    methods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
+    credentials: true,
+}
+app.use(cors(corsOptions));
 app.use(express.json());
 //app.use(bodyParser.json()); //is this needed since its already included in express?
 app.use(cookieParser());

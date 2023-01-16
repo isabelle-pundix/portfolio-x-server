@@ -12,7 +12,12 @@ const error_middleware_1 = require("./middleware/error.middleware");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 4000;
 //Initialize middlewares/functions and routes
-app.use((0, cors_1.default)());
+const corsOptions = {
+    origin: "http://localhost:3000",
+    methods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
+    credentials: true,
+};
+app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());
 //app.use(bodyParser.json()); //is this needed since its already included in express?
 app.use((0, cookie_parser_1.default)());

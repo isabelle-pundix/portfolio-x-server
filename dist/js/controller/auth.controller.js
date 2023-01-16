@@ -38,6 +38,7 @@ class AuthController {
             if (user) {
                 console.log(user);
                 const passwordMatch = yield this.authService.matchPassword(logInData, user);
+                console.log(passwordMatch);
                 if (passwordMatch) {
                     const token = this.authService.createToken(user);
                     const cookie = this.authService.createCookie(token);

@@ -7,6 +7,7 @@ import { AuthTokenException } from "../exceptions/authTokenException";
 import { UserInterface } from "../types/user";
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
+    console.log(req.cookies);
     const cookies: any = req.cookies;
     if (cookies && cookies.Authorization) {
         const pubKey: string | Buffer = fs.readFileSync("./server.public.key", "utf8");

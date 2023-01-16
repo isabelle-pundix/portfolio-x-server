@@ -23,6 +23,6 @@ const NoteSchema: Schema = new Schema(
             virtuals: true
         }
     }
-)
+);
 
 export default model<NoteInterface>("Note", NoteSchema);

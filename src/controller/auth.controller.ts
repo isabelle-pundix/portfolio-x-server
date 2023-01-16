@@ -39,6 +39,7 @@ export class AuthController {
         if (user) {
             console.log(user);
             const passwordMatch: boolean = await this.authService.matchPassword(logInData, user);
+            console.log(passwordMatch);
             if (passwordMatch) {
                 const token: Token = this.authService.createToken(user);
                 const cookie: any = this.authService.createCookie(token);

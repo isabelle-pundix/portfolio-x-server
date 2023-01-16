@@ -48,7 +48,7 @@ export class AuthService {
     }
 
     public createCookie(token: Token): any {
-        return `Authorization=${token.token}; HttpOnly; Max-Age=${token.expiresIn}`;
+        return `Authorization=${token.token}; Max-Age=${token.expiresIn}`;
     }
 
     public createToken(user: UserInterface): Token {

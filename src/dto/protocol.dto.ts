@@ -1,12 +1,9 @@
 import { IsBoolean, IsInstance, IsOptional, IsString, ValidateNested } from "class-validator";
 
-export class NoteDto {
+export class ProtocolDto {
 
     //implicit constructor
 
     @IsString()
-    public content!: string;
-
-    @IsString()
-    public group!: string;
+    public protocolName!: string;
 }

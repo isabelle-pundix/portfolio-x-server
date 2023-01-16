@@ -1,5 +1,4 @@
 import { IsBoolean, IsInstance, IsOptional, IsString, ValidateNested } from "class-validator";
-import { NoteDto } from "./note.dto";
 
 export class UserDto {
 
