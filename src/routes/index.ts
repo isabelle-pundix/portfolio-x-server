@@ -2,6 +2,7 @@ import { Router } from "express";
 import { AuthController } from "../controller/auth.controller";
 import { NoteController } from "../controller/note.controller";
 import { UserController } from "../controller/user.controller";
+import { CmcDataController } from "../controller/cmcData.controller";
 import { LogInDto } from "../dto/logIn.dto";
 import { NoteDto } from "../dto/note.dto";
 import { UserDto } from "../dto/user.dto";
@@ -11,6 +12,7 @@ import { validationMiddleware } from "../middleware/validation.middleware";
 const userController = new UserController();
 const authController = new AuthController();
 const noteController = new NoteController();
+const cmcDataController = new CmcDataController();
 const router: Router = Router();
 
 //Test CRUD only
@@ -29,4 +31,8 @@ router.get("/getnotes", authMiddleware, noteController.getUserNotes);
 router.post("/addnote", authMiddleware, validationMiddleware(NoteDto), noteController.addUserNote);
 router.put("/updatenote/:noteId", authMiddleware, validationMiddleware(NoteDto), noteController.updateUserNote);
 router.delete("/deletenote/:noteId", authMiddleware, noteController.deleteUserNote);
+
+//CMC
+router.get("/getCmcMeta", authMiddleware, cmcDataController.getMetaData);
+router.get("/getLatest", authMiddleware, cmcDataController.getLatestData);
 export default router;
