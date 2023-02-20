@@ -30,6 +30,7 @@ class UserService {
             const user = new user_model_1.default({
                 name: userData.name,
                 email: userData.email,
+                walletAddress: userData.walletAddress,
                 password: userData.password,
                 status: userData.status
             });

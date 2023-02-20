@@ -42,10 +42,11 @@ dotenv.config();
 class CmcDataController {
     constructor() {
         //info?id="1,2,..." or info?symbol="BTC,ETH,..." or info?address="0xc40..."
+        //Note that the equivalent for axios.params is express.request.query 
         this.getMetaData = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(`/v2/cryptocurrency/info?symbol=${req.body.symbols}`);
-                yield this.cmcApi(`/v2/cryptocurrency/info?symbol=${req.body.symbols}`)
+                console.log(`/v2/cryptocurrency/info?symbol=${req.query.symbol}`);
+                yield this.cmcApi(`/v2/cryptocurrency/info?symbol=${req.query.symbol}`)
                     .then(res => res.data)
                     .then(value => res.json(value.data));
             }

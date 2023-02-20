@@ -21,6 +21,7 @@ export class UserService {
         const user: UserInterface = new User({
             name: userData.name,
             email: userData.email,
+            walletAddress: userData.walletAddress,
             password: userData.password,
             status: userData.status
         });

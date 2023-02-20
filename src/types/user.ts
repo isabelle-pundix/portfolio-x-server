@@ -6,6 +6,7 @@ export interface UserInterface extends Document {
     seq: number
     name: string
     email: string
+    walletAddress: string
     password: string
     status: boolean
     notes: Array<NoteInterface>

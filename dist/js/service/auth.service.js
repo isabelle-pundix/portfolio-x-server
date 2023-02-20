@@ -59,10 +59,14 @@ class AuthService {
             if (yield this.User.findOne({ email: userData.email })) {
                 throw new userException_1.UserException().alreadyExist();
             }
+            if (yield this.User.findOne({ walletAddress: userData.walletAddress })) {
+                throw new userException_1.UserException().walletAddressUsed();
+            }
             const bcryptHashedPassword = yield bcrypt.hash(userData.password, 10);
             const user = new user_model_1.default({
                 name: userData.name,
                 email: userData.email,
+                walletAddress: userData.walletAddress,
                 password: bcryptHashedPassword,
                 status: userData.status
             });

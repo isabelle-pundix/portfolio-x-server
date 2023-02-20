@@ -33,10 +33,14 @@ export class AuthService {
         if (await this.User.findOne({ email: userData.email })) {
             throw new UserException().alreadyExist();
         }
+        if (await this.User.findOne({ walletAddress: userData.walletAddress })) {
+            throw new UserException().walletAddressUsed();
+        }
         const bcryptHashedPassword: string = await bcrypt.hash(userData.password, 10);
         const user: UserDto = new User({
             name: userData.name,
             email: userData.email,
+            walletAddress: userData.walletAddress,
             password: bcryptHashedPassword,
             status: userData.status
         });

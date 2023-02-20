@@ -11,6 +11,9 @@ export class UserDto {
     public email!: string
 
     @IsString()
+    public walletAddress!: string
+
+    @IsString()
     public password!: string
 
     @IsBoolean()
