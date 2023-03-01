@@ -32,9 +32,12 @@ export class CmcDataController {
         }
     }
 
+    //to get full list, use endpoint: "/v1/cryptocurrency/listings/latest?limit=400"
+    //200 currencies = 1 call credit.
+    //Otherwise to save credits, use: /v1/cryptocurrency/quotes/latest?symbol=BTC,ETH,...
     public getLatestData = async (req: Request, res: Response): Promise<void> => {
         try {
-            await this.cmcApi("/v1/cryptocurrency/listings/latest?limit=500")
+            await this.cmcApi(`/v1/cryptocurrency/quotes/latest?symbol=${req.query.symbol}`)
                 .then(res => res.data)
                 .then(value => res.json(value.data));
         } catch (error) {

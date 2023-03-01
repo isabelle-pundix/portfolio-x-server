@@ -31,5 +31,5 @@ router.put("/updatenote/:noteId", auth_middleware_1.authMiddleware, (0, validati
 router.delete("/deletenote/:noteId", auth_middleware_1.authMiddleware, noteController.deleteUserNote);
 //CMC
 router.get("/getCmcMeta", auth_middleware_1.authMiddleware, cmcDataController.getMetaData);
-router.get("/getLatest", auth_middleware_1.authMiddleware, cmcDataController.getLatestData);
+router.get("/getLatest", cmcDataController.getLatestData);
 exports.default = router;

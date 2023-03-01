@@ -34,5 +34,5 @@ router.delete("/deletenote/:noteId", authMiddleware, noteController.deleteUserNo
 
 //CMC
 router.get("/getCmcMeta", authMiddleware, cmcDataController.getMetaData);
-router.get("/getLatest", authMiddleware, cmcDataController.getLatestData);
+router.get("/getLatest", cmcDataController.getLatestData);
 export default router;
