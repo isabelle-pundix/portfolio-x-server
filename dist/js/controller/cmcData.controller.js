@@ -59,7 +59,7 @@ class CmcDataController {
         //Otherwise to save credits, use: /v1/cryptocurrency/quotes/latest?symbol=BTC,ETH,...
         this.getLatestData = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.cmcApi(`/v1/cryptocurrency/quotes/latest?symbol=${req.query.symbol}`)
+                yield this.cmcApi(`/v2/cryptocurrency/quotes/latest?symbol=${req.query.symbol}`)
                     .then(res => res.data)
                     .then(value => res.json(value.data));
             }

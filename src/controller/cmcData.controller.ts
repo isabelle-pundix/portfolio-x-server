@@ -37,7 +37,7 @@ export class CmcDataController {
     //Otherwise to save credits, use: /v1/cryptocurrency/quotes/latest?symbol=BTC,ETH,...
     public getLatestData = async (req: Request, res: Response): Promise<void> => {
         try {
-            await this.cmcApi(`/v1/cryptocurrency/quotes/latest?symbol=${req.query.symbol}`)
+            await this.cmcApi(`/v2/cryptocurrency/quotes/latest?symbol=${req.query.symbol}`)
                 .then(res => res.data)
                 .then(value => res.json(value.data));
         } catch (error) {
