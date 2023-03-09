@@ -13,6 +13,7 @@ export const connectDb = (app: Express) => {
     }
     const connectionUrl: string = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@d${process.env.MONGO_DOMAIN}/?retryWrites=true&w=majority`;
     const options = {
+        dbName: `portfolio`,
         useNewUrlParser: true,
         useUnifiedTopology: true
     } as ConnectOptions;
