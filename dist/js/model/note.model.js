@@ -9,10 +9,6 @@ const NoteSchema = new mongoose_1.Schema({
     content: {
         type: String,
         required: false
-    },
-    group: {
-        type: String,
-        required: false
     }
 }, {
     timestamps: true,

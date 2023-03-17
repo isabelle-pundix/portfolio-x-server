@@ -31,17 +31,6 @@ class NoteRepository {
             }
         });
     }
-    getNotesByGroup(groupName) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const notesByGroup = this.Note.find({ group: groupName });
-                return notesByGroup;
-            }
-            catch (error) {
-                throw error;
-            }
-        });
-    }
     addUserNote(userId, note) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -66,14 +55,12 @@ class NoteRepository {
                 const updatedUserNote = yield this.User.findByIdAndUpdate({ _id: userId, "notes.id": noteId }, {
                     $set: {
                         content: note.content,
-                        group: note.group
                     }
                 });
                 //update collection
                 const updatedNote = yield this.Note.findByIdAndUpdate({ _id: noteId }, {
                     $set: {
                         content: note.content,
-                        group: note.group
                     }
                 });
                 return updatedNote;

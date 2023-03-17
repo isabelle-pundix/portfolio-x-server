@@ -30,7 +30,6 @@ class NoteService {
             const note = new note_model_1.default({
                 user: userId,
                 content: noteData.content,
-                group: noteData.group
             });
             const newNote = yield this.noteRepository.addUserNote(userId, note);
             return newNote;

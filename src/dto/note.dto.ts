@@ -6,7 +6,5 @@ export class NoteDto {
 
     @IsString()
     public content!: string;
-
-    @IsString()
-    public group!: string;
+    
 }

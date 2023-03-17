@@ -23,15 +23,6 @@ export class NoteRepository {
         }
     }
 
-    public async getNotesByGroup(groupName: String): Promise<Array<NoteInterface>> {
-        try {
-            const notesByGroup: Array<NoteInterface> = this.Note.find({ group: groupName });
-            return notesByGroup;
-        } catch (error) {
-            throw error;
-        }
-    }
-
     public async addUserNote(userId: String, note: NoteInterface): Promise<NoteInterface> {
         try {
             //Embed to User
@@ -56,7 +47,6 @@ export class NoteRepository {
                 {
                     $set: {
                         content: note.content,
-                        group: note.group
                     }
                 }
             );
@@ -66,7 +56,6 @@ export class NoteRepository {
                 {
                     $set: {
                         content: note.content,
-                        group: note.group
                     }
                 }
             );

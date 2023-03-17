@@ -20,7 +20,6 @@ export class NoteService {
         const note: NoteInterface = new Note({
             user: userId,
             content: noteData.content,
-            group: noteData.group
         });
         const newNote: NoteInterface = await this.noteRepository.addUserNote(userId, note);
         return newNote;

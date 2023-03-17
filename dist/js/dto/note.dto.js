@@ -13,7 +13,4 @@ class NoteDto {
 __decorate([
     (0, class_validator_1.IsString)()
 ], NoteDto.prototype, "content", void 0);
-__decorate([
-    (0, class_validator_1.IsString)()
-], NoteDto.prototype, "group", void 0);
 exports.NoteDto = NoteDto;

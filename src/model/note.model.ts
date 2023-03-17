@@ -10,10 +10,6 @@ const NoteSchema: Schema = new Schema(
         content: {
             type: String,
             required: false
-        },
-        group: {
-            type: String,
-            required: false
         }
     },
     {
