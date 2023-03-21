@@ -10,7 +10,7 @@ import { CredentialsException } from "./../exceptions/credentialsException";
 export class AuthController {
 
     private authService: AuthService;
-    private User: any;;
+    private User: any;
 
     constructor() {
         this.authService = new AuthService();
@@ -18,7 +18,7 @@ export class AuthController {
     }
 
     public registerNewUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-        try {
+        try {   
             const userData: UserDto = req.body;
             const { cookie, newUser } = await this.authService.registerNewUser(userData);
             res.setHeader("Set-Cookie", [cookie]);
@@ -35,7 +35,7 @@ export class AuthController {
 
     public logIn = async (req: Request, res: Response, next: NextFunction) => {
         const logInData: LogInDto = req.body;
-        const user: UserInterface = await this.User.findOne({ email: logInData.email });
+        const user: UserInterface = await this.User.findOne({ email: logInData.email }).populate('notes');
         if (user) {
             console.log(user);
             const passwordMatch: boolean = await this.authService.matchPassword(logInData, user);

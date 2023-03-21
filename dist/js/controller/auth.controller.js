@@ -34,7 +34,7 @@ class AuthController {
         });
         this.logIn = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             const logInData = req.body;
-            const user = yield this.User.findOne({ email: logInData.email });
+            const user = yield this.User.findOne({ email: logInData.email }).populate('notes');
             if (user) {
                 console.log(user);
                 const passwordMatch = yield this.authService.matchPassword(logInData, user);
@@ -65,6 +65,5 @@ class AuthController {
         this.authService = new auth_service_1.AuthService();
         this.User = user_model_1.default;
     }
-    ;
 }
 exports.AuthController = AuthController;
