@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "portfolioserver",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Malcolm Tan 陈哲瑞 <malcolm@pundix.com>",
+  "author": "Malcolm Tan 陈哲瑞 <malcolm@pundix.com>, Goh Jin Zhu <gohjinzhu@pundix.com>",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.2.4",
