@@ -69,10 +69,10 @@ export class NoteRepository {
         try {
             //delete embedded document
             const deletedUserNote: UserInterface | null = await this.User.findByIdAndUpdate(
-                { _id: userId, "notes.id": noteId },
+                userId,
                 {
                     $pull: {
-                        notes: { _id: noteId }
+                        notes: noteId
                     }
                 },
                 { new: true }
