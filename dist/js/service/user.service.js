@@ -19,6 +19,11 @@ class UserService {
     constructor() {
         this.userRepository = new user_repository_1.UserRepository();
     }
+    getUserById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userRepository.getUser(id);
+        });
+    }
     getUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.userRepository.getUsers();

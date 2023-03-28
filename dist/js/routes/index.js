@@ -20,10 +20,13 @@ router.get("/getusers", auth_middleware_1.authMiddleware, userController.getUser
 router.post("/adduser", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(user_dto_1.UserDto), userController.addUser);
 router.put("/updateuser/:id", auth_middleware_1.authMiddleware, userController.updateUser);
 router.delete("/deleteuser/:id", auth_middleware_1.authMiddleware, userController.deleteUser);
+//fetch user details
+router.get("/user", auth_middleware_1.authMiddleware, userController.getUser);
 //Auth
 router.post("/register", (0, validation_middleware_1.validationMiddleware)(user_dto_1.UserDto), authController.registerNewUser);
-router.post("/login", (0, validation_middleware_1.validationMiddleware)(logIn_dto_1.LogInDto), authController.logIn);
-router.post("/logout", authController.logOut);
+router.post("/login", (0, validation_middleware_1.validationMiddleware)(logIn_dto_1.LogInDto), authController.login);
+router.post("/refreshToken", authController.refreshToken);
+router.post("/logout", authController.logout);
 //Notes
 router.get("/getnotes", auth_middleware_1.authMiddleware, noteController.getUserNotes);
 router.post("/addnote", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(note_dto_1.NoteDto), noteController.addUserNote);

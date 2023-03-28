@@ -1,10 +1,9 @@
-import { UserService } from "./user.service";
-import { UserInterface } from "../types/user";
+import { UserRepository } from "../repository/user.repository";
+import { RefreshToken, UserInterface } from "../types/user";
 import User from "../model/user.model";
 import { UserDto } from "../dto/user.dto";
 import { LogInDto } from "../dto/logIn.dto";
-import Token from "../types/token";
-import TokenPayload from "../types/tokenPayload";
+import { TokenPayload } from "../types/tokenPayload";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as fs from "fs";
@@ -12,12 +11,12 @@ import { UserException } from "../exceptions/userException";
 
 export class AuthService {
 
-    private userService: UserService
+    private userRepository: UserRepository;
     private User: any;
     private privKey: string | Buffer = fs.readFileSync("./server.private.key", "utf8");
 
     constructor() {
-        this.userService = new UserService();
+        this.userRepository = new UserRepository();
         this.User = User;
     }
 
@@ -29,41 +28,54 @@ export class AuthService {
         return passwordMatch;
     }
 
-    public async registerNewUser(userData: UserDto): Promise<{ cookie: string, newUser: UserInterface }> {
+    public async registerNewUser(userData: UserDto): Promise<{ accessToken: string, newUser: UserInterface, refreshToken: string }> {
         if (await this.User.findOne({ email: userData.email })) {
             throw new UserException().alreadyExist();
         }
         if (await this.User.findOne({ walletAddress: userData.walletAddress })) {
             throw new UserException().walletAddressUsed();
         }
+
         const bcryptHashedPassword: string = await bcrypt.hash(userData.password, 10);
-        const user: UserDto = new User({
+        const user: UserInterface = new User({
             name: userData.name,
             email: userData.email,
             walletAddress: userData.walletAddress,
             password: bcryptHashedPassword,
             status: userData.status
         });
-        const newUser: UserInterface = await this.userService.addUser(user);
-        const tokenData: Token = this.createToken(newUser)
-        const cookie: any = this.createCookie(tokenData);
-        return { cookie, newUser };
+        const newUser: UserInterface = await this.userRepository.addUser(user);
+        const accessToken = this.createAccessToken(newUser._id)
+        const refreshToken = this.createRefreshToken(newUser._id)
+        // const cookie: any = this.createCookie(tokenData);
+        return { accessToken, newUser, refreshToken };
         //(Oauth2.0??)
     }
 
-    public createCookie(token: Token): any {
-        return `Authorization=${token.token}; Max-Age=${token.expiresIn}`;
+    // public createCookie(token: Token): any {
+    //     return `Authorization=${token.token}; Max-Age=${token.expiresIn}`;
+    // }
+
+    public createAccessToken(userId: UserInterface["_id"]): string {
+        let signOptions: any = {
+            expiresIn: 60 * 15, // 15 minutes
+            algorithm: "RS256"
+        };
+        let payload: TokenPayload = {
+            _id: userId
+        };
+        return jwt.sign(payload, this.privKey, signOptions);
     }
 
-    public createToken(user: UserInterface): Token {
-        const expiresIn: number = 60 * 60; //1hr
+    public createRefreshToken(userId: UserInterface["_id"]): string {
+        const expiresIn: number = 60 * 60 * 24 * 7; //7days
         let signOptions: any = {
             expiresIn: expiresIn,
             algorithm: "RS256"
         };
         let payload: TokenPayload = {
-            _id: user.id
+            _id: userId
         };
-        return { token: jwt.sign(payload, this.privKey, signOptions), expiresIn };
+        return jwt.sign(payload, this.privKey, signOptions)
     }
 }

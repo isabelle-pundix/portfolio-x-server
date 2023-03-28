@@ -21,10 +21,14 @@ router.post("/adduser", authMiddleware, validationMiddleware(UserDto), userContr
 router.put("/updateuser/:id", authMiddleware, userController.updateUser);
 router.delete("/deleteuser/:id", authMiddleware, userController.deleteUser);
 
+//fetch user details
+router.get("/user", authMiddleware, userController.getUser)
+
 //Auth
 router.post("/register", validationMiddleware(UserDto), authController.registerNewUser);
-router.post("/login", validationMiddleware(LogInDto), authController.logIn);
-router.post("/logout", authController.logOut);
+router.post("/login", validationMiddleware(LogInDto), authController.login);
+router.post("/refreshToken", authController.refreshToken);
+router.post("/logout", authController.logout);
 
 //Notes
 router.get("/getnotes", authMiddleware, noteController.getUserNotes);

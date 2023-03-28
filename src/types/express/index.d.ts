@@ -8,6 +8,6 @@ import { UserInterface } from "../user";
 
 declare module 'express-serve-static-core' {
     interface Request {
-        user: UserInterface;
+        user: UserInterface | string;
     }
 }

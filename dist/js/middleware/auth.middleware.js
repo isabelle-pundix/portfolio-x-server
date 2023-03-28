@@ -31,30 +31,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authMiddleware = void 0;
 const fs = __importStar(require("fs"));
 const jwt = __importStar(require("jsonwebtoken"));
-const user_model_1 = __importDefault(require("../model/user.model"));
 const authTokenException_1 = require("../exceptions/authTokenException");
 function authMiddleware(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(req.cookies);
-        const cookies = req.cookies;
-        if (cookies && cookies.Authorization) {
-            const pubKey = fs.readFileSync("./server.public.key", "utf8");
+        const authHeader = String(req.headers['authorization'] || '');
+        if (authHeader.startsWith('Bearer ')) {
             try {
+                const accessToken = authHeader.substring(7, authHeader.length);
+                const pubKey = fs.readFileSync("./server.public.key", "utf8");
                 let verifyOptions = {
                     algorithm: ["RS256"]
                 };
-                const tokenPayload = jwt.verify(cookies.Authorization, pubKey, verifyOptions);
-                const _id = tokenPayload._id;
-                const user = yield user_model_1.default.findById(_id);
-                if (user) {
-                    req.user = user;
+                const tokenPayload = jwt.verify(accessToken, pubKey, verifyOptions);
+                const userId = tokenPayload._id;
+                if (userId) {
+                    req.user = userId;
                     next();
                 }
                 else {
@@ -62,7 +57,7 @@ function authMiddleware(req, res, next) {
                 }
             }
             catch (error) {
-                next(new authTokenException_1.AuthTokenException());
+                next(error);
             }
         }
         else {

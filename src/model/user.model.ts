@@ -3,7 +3,14 @@ import { model, plugin, Schema } from "mongoose";
 const mongoose = require("mongoose");
 const AutoIncrement = require("mongoose-sequence")(mongoose);
 
-const userSchema: Schema = new Schema(
+const Session = new Schema({
+    refreshToken: {
+        type: String,
+        default: "",
+    },
+});
+
+const UserSchema: Schema = new Schema(
     {
         seq: {
             type: Number
@@ -31,7 +38,10 @@ const userSchema: Schema = new Schema(
         notes: [{
             type: Schema.Types.ObjectId,
             ref: "Note"
-        }]
+        }],
+        refreshToken: {
+            type: [Session],
+        },
     },
     {
         timestamps: true,
@@ -41,5 +51,14 @@ const userSchema: Schema = new Schema(
         }
     }
 );
-userSchema.plugin(AutoIncrement, {inc_field: "seq"});
-export default model<UserInterface>("User", userSchema);
+
+//Remove refreshToken from the response
+UserSchema.set("toJSON", {
+    transform: function (doc, ret, options) {
+        delete ret.refreshToken;
+        return ret;
+    },
+});
+
+UserSchema.plugin(AutoIncrement, { inc_field: "seq" });
+export default model<UserInterface>("User", UserSchema);

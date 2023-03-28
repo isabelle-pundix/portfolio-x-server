@@ -36,7 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
-const user_service_1 = require("./user.service");
+const user_repository_1 = require("../repository/user.repository");
 const user_model_1 = __importDefault(require("../model/user.model"));
 const bcrypt = __importStar(require("bcrypt"));
 const jwt = __importStar(require("jsonwebtoken"));
@@ -45,7 +45,7 @@ const userException_1 = require("../exceptions/userException");
 class AuthService {
     constructor() {
         this.privKey = fs.readFileSync("./server.private.key", "utf8");
-        this.userService = new user_service_1.UserService();
+        this.userRepository = new user_repository_1.UserRepository();
         this.User = user_model_1.default;
     }
     matchPassword(logInData, user) {
@@ -70,26 +70,37 @@ class AuthService {
                 password: bcryptHashedPassword,
                 status: userData.status
             });
-            const newUser = yield this.userService.addUser(user);
-            const tokenData = this.createToken(newUser);
-            const cookie = this.createCookie(tokenData);
-            return { cookie, newUser };
+            const newUser = yield this.userRepository.addUser(user);
+            const accessToken = this.createAccessToken(newUser._id);
+            const refreshToken = this.createRefreshToken(newUser._id);
+            // const cookie: any = this.createCookie(tokenData);
+            return { accessToken, newUser, refreshToken };
             //(Oauth2.0??)
         });
     }
-    createCookie(token) {
-        return `Authorization=${token.token}; Max-Age=${token.expiresIn}`;
+    // public createCookie(token: Token): any {
+    //     return `Authorization=${token.token}; Max-Age=${token.expiresIn}`;
+    // }
+    createAccessToken(userId) {
+        let signOptions = {
+            expiresIn: 60 * 15,
+            algorithm: "RS256"
+        };
+        let payload = {
+            _id: userId
+        };
+        return jwt.sign(payload, this.privKey, signOptions);
     }
-    createToken(user) {
-        const expiresIn = 60 * 60; //1hr
+    createRefreshToken(userId) {
+        const expiresIn = 60 * 60 * 24 * 7; //7days
         let signOptions = {
             expiresIn: expiresIn,
             algorithm: "RS256"
         };
         let payload = {
-            _id: user.id
+            _id: userId
         };
-        return { token: jwt.sign(payload, this.privKey, signOptions), expiresIn };
+        return jwt.sign(payload, this.privKey, signOptions);
     }
 }
 exports.AuthService = AuthService;

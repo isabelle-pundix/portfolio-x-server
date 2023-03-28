@@ -1,3 +1,3 @@
-export default interface TokenPayload {
+export interface TokenPayload {
     _id: string;
 }

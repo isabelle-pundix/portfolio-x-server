@@ -3,7 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const mongoose = require("mongoose");
 const AutoIncrement = require("mongoose-sequence")(mongoose);
-const userSchema = new mongoose_1.Schema({
+const Session = new mongoose_1.Schema({
+    refreshToken: {
+        type: String,
+        default: "",
+    },
+});
+const UserSchema = new mongoose_1.Schema({
     seq: {
         type: Number
     },
@@ -30,7 +36,10 @@ const userSchema = new mongoose_1.Schema({
     notes: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: "Note"
-        }]
+        }],
+    refreshToken: {
+        type: [Session],
+    },
 }, {
     timestamps: true,
     toJSON: {
@@ -38,5 +47,12 @@ const userSchema = new mongoose_1.Schema({
         virtuals: true
     }
 });
-userSchema.plugin(AutoIncrement, { inc_field: "seq" });
-exports.default = (0, mongoose_1.model)("User", userSchema);
+//Remove refreshToken from the response
+UserSchema.set("toJSON", {
+    transform: function (doc, ret, options) {
+        delete ret.refreshToken;
+        return ret;
+    },
+});
+UserSchema.plugin(AutoIncrement, { inc_field: "seq" });
+exports.default = (0, mongoose_1.model)("User", UserSchema);
