@@ -11,6 +11,16 @@ export class UserController {
         this.userService = new UserService();
     }
 
+    public getUser = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const id = req.user
+            const user: UserInterface = await this.userService.getUserById(id as string);
+            res.status(200).json({ user });
+        } catch (error) {
+            throw error;
+        }
+    }
+
     public getUsers = async (req: Request, res: Response): Promise<void> => {
         try {
             const users: Array<UserInterface> = await this.userService.getUsers();

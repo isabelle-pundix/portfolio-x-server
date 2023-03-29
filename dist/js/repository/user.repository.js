@@ -18,6 +18,17 @@ class UserRepository {
     constructor() {
         this.User = user_model_1.default;
     }
+    getUser(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield this.User.findById(id).populate('notes');
+                return user;
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
     getUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -32,8 +43,7 @@ class UserRepository {
     addUser(user) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield user.save();
-                const newUser = this.User.findById(user._id);
+                const newUser = yield user.save();
                 return newUser;
             }
             catch (error) {

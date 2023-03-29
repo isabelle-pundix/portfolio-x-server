@@ -9,23 +9,31 @@ export class UserRepository {
         this.User = User;
     }
 
+    public async getUser(id: string): Promise<UserInterface> {
+        try {
+            const user: UserInterface = await this.User.findById(id).populate('notes');
+            return user;
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
     public async getUsers(): Promise<Array<UserInterface>> {
         try {
             const allUsers: Array<UserInterface> = await this.User.find({}, null, { populate: "notes" });
             return allUsers;
 
-        } catch(error) {
+        } catch (error) {
             throw error;
         }
     }
 
     public async addUser(user: UserInterface): Promise<UserInterface> {
         try {
-            await user.save();
-            const newUser: UserInterface = this.User.findById(user._id);
+            const newUser = await user.save();
             return newUser;
-
-        } catch(error) {
+        } catch (error) {
             throw error;
         }
 
@@ -49,7 +57,7 @@ export class UserRepository {
             const deleteUser: UserInterface | null = await this.User.findByIdAndDelete(id);
             return deleteUser;
 
-        } catch(error) {
+        } catch (error) {
             throw error;
         }
     }

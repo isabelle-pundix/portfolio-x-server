@@ -13,6 +13,16 @@ exports.UserController = void 0;
 const user_service_1 = require("../service/user.service");
 class UserController {
     constructor() {
+        this.getUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = req.user;
+                const user = yield this.userService.getUserById(id);
+                res.status(200).json({ user });
+            }
+            catch (error) {
+                throw error;
+            }
+        });
         this.getUsers = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const users = yield this.userService.getUsers();

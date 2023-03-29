@@ -74,9 +74,9 @@ class NoteRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 //delete embedded document
-                const deletedUserNote = yield this.User.findByIdAndUpdate({ _id: userId, "notes.id": noteId }, {
+                const deletedUserNote = yield this.User.findByIdAndUpdate(userId, {
                     $pull: {
-                        notes: { _id: noteId }
+                        notes: noteId
                     }
                 }, { new: true });
                 //delete from collection

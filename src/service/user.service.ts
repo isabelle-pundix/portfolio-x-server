@@ -12,6 +12,10 @@ export class UserService {
         this.userRepository = new UserRepository();
     }
 
+    public async getUserById(id: string) {
+        return await this.userRepository.getUser(id);
+    }
+
     public async getUsers() {
         return await this.userRepository.getUsers();
     }
