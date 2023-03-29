@@ -8,15 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FxcoredController = void 0;
-const axios_1 = __importDefault(require("axios"));
 const fxcored_service_1 = require("../service/fxcored.service");
 class FxcoredController {
     constructor() {
+        this.getPoolInfo = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const poolInfo = yield this.fxcoredService.getPoolInfo();
+                res.status(200).json({
+                    result: poolInfo
+                });
+            }
+            catch (error) {
+                res.status(400).json({
+                    error: error
+                });
+            }
+        });
         this.getDelegatorTotalRewards = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const cosmosAddr = yield this.fxcoredService.getCosmosAddress(req.query.address);
@@ -157,10 +166,6 @@ class FxcoredController {
             }
         });
         this.fxcoredService = new fxcored_service_1.FxcoredService();
-        this.mainnetApi = axios_1.default.create({
-            method: "GET",
-            baseURL: "https://fx-rest.functionx.io"
-        });
     }
 }
 exports.FxcoredController = FxcoredController;

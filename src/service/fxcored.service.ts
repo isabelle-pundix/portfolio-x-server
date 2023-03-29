@@ -12,7 +12,8 @@ import {
     ValidatorCommissionRes,
     ValidatorOutstandingRewardsRes,
     ValidatorsInfoFullRes,
-    ValidatorsOfDelegatorRes
+    ValidatorsOfDelegatorRes,
+    PoolInfo
 } from "../types/fxcored";
 
 export class FxcoredService {
@@ -24,6 +25,22 @@ export class FxcoredService {
             method: "GET",
             baseURL: "https://fx-rest.functionx.io"
         });
+    }
+
+    public async getPoolInfo(): Promise<PoolInfo> {
+        try {
+            const result = await this.mainnetApi("/cosmos/staking/v1beta1/pool")
+                .then(res => res.data) as PoolInfo;
+            return result
+        } catch (error: any) {
+            throw new FxcoredError({
+                url: error.config.url,
+                method: error.config.method,
+                code: error.response.data.code,
+                message: error.response.data.message,
+                details: error.response.data.details,
+            });
+        }
     }
 
     /**

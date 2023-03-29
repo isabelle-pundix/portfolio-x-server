@@ -8,14 +8,22 @@ import { CosmosAddressRes, DelegatorTotalRewardsRes } from "../types/fxcored";
 export class FxcoredController {
 
     private fxcoredService: FxcoredService;
-    private mainnetApi: AxiosInstance;
 
     constructor() {
         this.fxcoredService = new FxcoredService();
-        this.mainnetApi = axios.create({
-            method: "GET",
-            baseURL: "https://fx-rest.functionx.io"
-        });
+    }
+
+    public getPoolInfo = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        try {
+            const poolInfo = await this.fxcoredService.getPoolInfo();
+            res.status(200).json({
+                result: poolInfo
+            })
+        } catch (error: any) {
+            res.status(400).json({
+                error: error
+            });
+        }
     }
 
     public getDelegatorTotalRewards = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -26,11 +34,11 @@ export class FxcoredController {
             const totalRewards = await this.fxcoredService.getTotalRewards(cosmosAddr);
             res.status(200).json({
                 result: totalRewards
-            });
+            })
         } catch (error: any) {
             res.status(400).json({
                 error: error
-            });
+            })
         }
     }
 
@@ -43,7 +51,7 @@ export class FxcoredController {
             res.status(200).json({
                 delegator: cosmosAddr,
                 result: validatorsOf,
-            });
+            })
         } catch (error: any) {
             res.status(400).json({
                 error: error
@@ -60,7 +68,7 @@ export class FxcoredController {
             res.status(200).json({
                 delegator: cosmosAddr,
                 result: delegatorDelegations,
-            });
+            })
         } catch (error: any) {
             res.status(400).json({
                 error: error
@@ -77,7 +85,7 @@ export class FxcoredController {
             res.status(200).json({
                 delegator: cosmosAddr,
                 result: validatorsInfoFull,
-            });
+            })
         } catch (error: any) {
             res.status(400).json({
                 error: error
@@ -92,7 +100,7 @@ export class FxcoredController {
             );
             res.status(200).json({
                 result: valCommission,
-            });
+            })
         } catch (error: any) {
             res.status(400).json({
                 error: error

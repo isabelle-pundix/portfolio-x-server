@@ -46,6 +46,24 @@ class FxcoredService {
             baseURL: "https://fx-rest.functionx.io"
         });
     }
+    getPoolInfo() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.mainnetApi("/cosmos/staking/v1beta1/pool")
+                    .then(res => res.data);
+                return result;
+            }
+            catch (error) {
+                throw new fxcoredError_1.FxcoredError({
+                    url: error.config.url,
+                    method: error.config.method,
+                    code: error.response.data.code,
+                    message: error.response.data.message,
+                    details: error.response.data.details,
+                });
+            }
+        });
+    }
     /**
      * Gets the Cosmos address of the given Ethereum address.
      * @param evmAddress An Ethereum hex address to query the equivalent Cosmos address.

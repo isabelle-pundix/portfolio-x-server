@@ -1,4 +1,11 @@
 
+export interface PoolInfo {
+    pool: {
+        not_bonded_tokens: string;
+        bonded_tokens: string;
+    }
+}
+
 export interface CosmosAddressRes {
     cosmos_address: string;
     sequence: string;
