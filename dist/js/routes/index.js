@@ -45,4 +45,5 @@ router.get("/events0", fxcoredController.getEventsNode);
 router.get("/events1", fxcoredController.getEventsRest);
 router.get("/withdrawals0", fxcoredController.getWithdrawalsNode);
 router.get("/withdrawals1", fxcoredController.getWithdrawalsRest);
+router.get("/poolInfo", fxcoredController.getPoolInfo);
 exports.default = router;
