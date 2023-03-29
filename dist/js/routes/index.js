@@ -5,6 +5,7 @@ const auth_controller_1 = require("../controller/auth.controller");
 const note_controller_1 = require("../controller/note.controller");
 const user_controller_1 = require("../controller/user.controller");
 const cmcData_controller_1 = require("../controller/cmcData.controller");
+const fxcored_controller_1 = require("../controller/fxcored.controller");
 const logIn_dto_1 = require("../dto/logIn.dto");
 const note_dto_1 = require("../dto/note.dto");
 const user_dto_1 = require("../dto/user.dto");
@@ -14,6 +15,7 @@ const userController = new user_controller_1.UserController();
 const authController = new auth_controller_1.AuthController();
 const noteController = new note_controller_1.NoteController();
 const cmcDataController = new cmcData_controller_1.CmcDataController();
+const fxcoredController = new fxcored_controller_1.FxcoredController();
 const router = (0, express_1.Router)();
 //Test CRUD only
 router.get("/getusers", auth_middleware_1.authMiddleware, userController.getUsers);
@@ -32,4 +34,15 @@ router.delete("/deletenote/:noteId", auth_middleware_1.authMiddleware, noteContr
 //CMC
 router.get("/getCmcMeta", auth_middleware_1.authMiddleware, cmcDataController.getMetaData);
 router.get("/getLatest", cmcDataController.getLatestData);
+//Fxcored
+router.get("/totalRewards", fxcoredController.getDelegatorTotalRewards);
+router.get("/validatorsLite", fxcoredController.getValidatorsLite);
+router.get("/delegatorDelegations", fxcoredController.getDelegatorDelegations);
+router.get("/validatorsFull", fxcoredController.getValidatorsFull);
+router.get("/validatorCommission", fxcoredController.getValidatorCommission);
+router.get("/validatorOutstandingRewards", fxcoredController.getValidatorOutstandingRewards);
+router.get("/events0", fxcoredController.getEventsNode);
+router.get("/events1", fxcoredController.getEventsRest);
+router.get("/withdrawals0", fxcoredController.getWithdrawalsNode);
+router.get("/withdrawals1", fxcoredController.getWithdrawalsRest);
 exports.default = router;
