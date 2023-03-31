@@ -23,7 +23,6 @@ export class CmcDataController {
     //Note that the equivalent for axios.params is express.request.query 
     public getMetaData = async (req: Request, res: Response): Promise<void> => {
         try {
-            console.log(`/v2/cryptocurrency/info?symbol=${req.query.symbol}`)
             await this.cmcApi(`/v2/cryptocurrency/info?symbol=${req.query.symbol}`)
                 .then(res => res.data)
                 .then(value => res.json(value.data));

@@ -3,6 +3,7 @@ import { AuthController } from "../controller/auth.controller";
 import { NoteController } from "../controller/note.controller";
 import { UserController } from "../controller/user.controller";
 import { CmcDataController } from "../controller/cmcData.controller";
+import { FxcoredController } from "../controller/fxcored.controller";
 import { LogInDto } from "../dto/logIn.dto";
 import { NoteDto } from "../dto/note.dto";
 import { UserDto } from "../dto/user.dto";
@@ -13,6 +14,7 @@ const userController = new UserController();
 const authController = new AuthController();
 const noteController = new NoteController();
 const cmcDataController = new CmcDataController();
+const fxcoredController = new FxcoredController();
 const router: Router = Router();
 
 //Test CRUD only
@@ -39,4 +41,18 @@ router.delete("/deletenote/:noteId", authMiddleware, noteController.deleteUserNo
 //CMC
 router.get("/getCmcMeta", authMiddleware, cmcDataController.getMetaData);
 router.get("/getLatest", cmcDataController.getLatestData);
+
+//Fxcored
+router.get("/totalRewards", fxcoredController.getDelegatorTotalRewards);
+router.get("/validatorsLite", fxcoredController.getValidatorsLite);
+router.get("/delegatorDelegations", fxcoredController.getDelegatorDelegations);
+router.get("/validatorsFull", fxcoredController.getValidatorsFull);
+router.get("/validatorCommission", fxcoredController.getValidatorCommission);
+router.get("/validatorOutstandingRewards", fxcoredController.getValidatorOutstandingRewards);
+router.get("/events0", fxcoredController.getEventsNode);
+router.get("/events1", fxcoredController.getEventsRest);
+router.get("/withdrawals0", fxcoredController.getWithdrawalsNode);
+router.get("/withdrawals1", fxcoredController.getWithdrawalsRest);
+router.get("/poolInfo", fxcoredController.getPoolInfo);
+
 export default router;
