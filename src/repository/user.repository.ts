@@ -39,11 +39,12 @@ export class UserRepository {
 
     }
 
-    public async updateUser(id: String | Number, body: any): Promise<UserInterface | null> {
+    public async updateUser(id: String | Number, field: any): Promise<UserInterface | null> {
         try {
             const updateUser: UserInterface | null = await this.User.findByIdAndUpdate(
                 { _id: id },
-                body
+                field,
+                { new: true }
             );
             return updateUser;
 

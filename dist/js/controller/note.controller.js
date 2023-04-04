@@ -17,7 +17,7 @@ class NoteController {
         this.getUserNotes = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 //gets userId from authMiddleware
-                const userId = req.user._id.toString();
+                const userId = req.user.toString();
                 const userNotes = yield this.noteService.getUserNotes(userId);
                 res.status(200).json({
                     userNotes
@@ -29,7 +29,7 @@ class NoteController {
         });
         this.addUserNote = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const userId = req.user._id.toString();
+                const userId = req.user.toString();
                 const noteData = req.body;
                 const newNote = yield this.noteService.addUserNote(userId, noteData);
                 res.status(201).json({
@@ -43,7 +43,7 @@ class NoteController {
         });
         this.updateUserNote = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const userId = req.user._id.toString();
+                const userId = req.user.toString();
                 const noteId = req.params.noteId;
                 const noteData = req.body;
                 const updatedNote = yield this.noteService.updateUserNote(userId, noteId, noteData);
@@ -60,7 +60,7 @@ class NoteController {
         });
         this.deleteUserNote = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const userId = req.user._id.toString();
+                const userId = req.user.toString();
                 const noteId = req.params.noteId;
                 const deletedNote = yield this.noteService.deleteUserNote(userId, noteId);
                 const userNotes = yield this.noteService.getUserNotes(userId);

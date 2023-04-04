@@ -54,12 +54,10 @@ export class UserController {
     public updateUser = async (req: Request, res: Response): Promise<void> => {
         try {
             const updateUser: UserInterface | null = await this.userService.updateUser(req);
-            const allUsers: Array<UserInterface> = await this.userService.getUsers();
             res.status(200).json(
                 {
                     message: "User updated",
-                    user: updateUser,
-                    users: allUsers
+                    user: updateUser
                 }
             );
         } catch (error) {
