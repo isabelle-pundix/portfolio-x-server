@@ -35,7 +35,8 @@ export class UserService {
 
     public async updateUser(req: Request): Promise<UserInterface | null> {
         const { params: { id }, body } = req;
-        const updateUser: UserInterface | null = await this.userRepository.updateUser(id, body);
+        const field = body.fieldToEdit
+        const updateUser: UserInterface | null = await this.userRepository.updateUser(id, field);
         return updateUser;
     }
 

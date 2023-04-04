@@ -46,7 +46,8 @@ class UserService {
     updateUser(req) {
         return __awaiter(this, void 0, void 0, function* () {
             const { params: { id }, body } = req;
-            const updateUser = yield this.userRepository.updateUser(id, body);
+            const field = body.fieldToEdit;
+            const updateUser = yield this.userRepository.updateUser(id, field);
             return updateUser;
         });
     }

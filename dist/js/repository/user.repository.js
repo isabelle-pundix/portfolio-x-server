@@ -51,10 +51,10 @@ class UserRepository {
             }
         });
     }
-    updateUser(id, body) {
+    updateUser(id, field) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const updateUser = yield this.User.findByIdAndUpdate({ _id: id }, body, { new: true });
+                const updateUser = yield this.User.findByIdAndUpdate({ _id: id }, field, { new: true });
                 return updateUser;
             }
             catch (error) {
