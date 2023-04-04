@@ -14,7 +14,7 @@ export class NoteController {
     public getUserNotes = async (req: Request, res: Response): Promise<void> => {
         try {
             //gets userId from authMiddleware
-            const userId: String = req.user._id.toString();
+            const userId: String = req.user.toString();
             const userNotes: Array<NoteInterface> = await this.noteService.getUserNotes(userId);
             res.status(200).json(
                 {
@@ -28,7 +28,7 @@ export class NoteController {
 
     public addUserNote = async (req: Request, res: Response): Promise<void> => {
         try {
-            const userId: String = req.user._id.toString();
+            const userId: String = req.user.toString();
             const noteData: NoteDto = req.body;
             const newNote: NoteInterface = await this.noteService.addUserNote(userId, noteData);
             res.status(201).json(
@@ -44,7 +44,7 @@ export class NoteController {
 
     public updateUserNote = async (req: Request, res: Response): Promise<void> => {
         try {
-            const userId: String = req.user._id.toString();
+            const userId: String = req.user.toString();
             const noteId: String = req.params.noteId;
             const noteData: NoteDto = req.body;
             const updatedNote: NoteInterface | null = await this.noteService.updateUserNote(userId, noteId, noteData);
@@ -63,7 +63,7 @@ export class NoteController {
 
     public deleteUserNote = async (req: Request, res: Response): Promise<void> => {
         try {
-            const userId: String = req.user._id.toString();
+            const userId: String = req.user.toString();
             const noteId: String = req.params.noteId;
             const deletedNote: NoteInterface | null = await this.noteService.deleteUserNote(userId, noteId);
             const userNotes: Array<NoteInterface> = await this.noteService.getUserNotes(userId);

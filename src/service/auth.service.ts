@@ -58,7 +58,7 @@ export class AuthService {
 
     public createAccessToken(userId: UserInterface["_id"]): string {
         let signOptions: any = {
-            expiresIn: 60 * 15, // 15 minutes
+            expiresIn: 60 * 20, // 15 minutes
             algorithm: "RS256"
         };
         let payload: TokenPayload = {

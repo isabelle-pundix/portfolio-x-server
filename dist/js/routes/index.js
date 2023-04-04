@@ -20,18 +20,19 @@ router.get("/getusers", auth_middleware_1.authMiddleware, userController.getUser
 router.post("/adduser", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(user_dto_1.UserDto), userController.addUser);
 router.put("/updateuser/:id", auth_middleware_1.authMiddleware, userController.updateUser);
 router.delete("/deleteuser/:id", auth_middleware_1.authMiddleware, userController.deleteUser);
-//fetch user details
+//User
 router.get("/user", auth_middleware_1.authMiddleware, userController.getUser);
+router.put("/user/:id", auth_middleware_1.authMiddleware, userController.updateUser);
 //Auth
 router.post("/register", (0, validation_middleware_1.validationMiddleware)(user_dto_1.UserDto), authController.registerNewUser);
 router.post("/login", (0, validation_middleware_1.validationMiddleware)(logIn_dto_1.LogInDto), authController.login);
 router.post("/refreshToken", authController.refreshToken);
 router.post("/logout", authController.logout);
 //Notes
-router.get("/getnotes", auth_middleware_1.authMiddleware, noteController.getUserNotes);
-router.post("/addnote", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(note_dto_1.NoteDto), noteController.addUserNote);
-router.put("/updatenote/:noteId", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(note_dto_1.NoteDto), noteController.updateUserNote);
-router.delete("/deletenote/:noteId", auth_middleware_1.authMiddleware, noteController.deleteUserNote);
+router.get("/note", auth_middleware_1.authMiddleware, noteController.getUserNotes);
+router.post("/note", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(note_dto_1.NoteDto), noteController.addUserNote);
+router.put("/note/:noteId", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(note_dto_1.NoteDto), noteController.updateUserNote);
+router.delete("/note/:noteId", auth_middleware_1.authMiddleware, noteController.deleteUserNote);
 //CMC
 router.get("/getCmcMeta", auth_middleware_1.authMiddleware, cmcDataController.getMetaData);
 router.get("/getLatest", cmcDataController.getLatestData);

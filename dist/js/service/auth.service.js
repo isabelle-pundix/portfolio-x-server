@@ -83,7 +83,7 @@ class AuthService {
     // }
     createAccessToken(userId) {
         let signOptions = {
-            expiresIn: 60 * 15,
+            expiresIn: 60 * 20,
             algorithm: "RS256"
         };
         let payload = {

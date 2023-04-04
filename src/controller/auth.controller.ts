@@ -13,7 +13,7 @@ import { TokenPayload } from "../types/tokenPayload";
 const COOKIE_OPTIONS = {
     httpOnly: true,
     // Since localhost is not having https protocol, secure cookies does not work correctly (in postman)
-    secure: !(process.env.NODE_ENV !== "production"),
+    secure: !(process.env.NODE_ENV !== "production"), //true, //!(process.env.NODE_ENV !== "production")
     signed: true,
     maxAge: 60 * 60 * 24 * 7 * 1000,
     sameSite: "none" as "none",

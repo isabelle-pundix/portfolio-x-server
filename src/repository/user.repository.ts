@@ -43,7 +43,8 @@ export class UserRepository {
         try {
             const updateUser: UserInterface | null = await this.User.findByIdAndUpdate(
                 { _id: id },
-                body
+                body,
+                {new:true}
             );
             return updateUser;
 

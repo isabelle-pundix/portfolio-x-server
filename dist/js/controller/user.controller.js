@@ -52,11 +52,9 @@ class UserController {
         this.updateUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const updateUser = yield this.userService.updateUser(req);
-                const allUsers = yield this.userService.getUsers();
                 res.status(200).json({
                     message: "User updated",
-                    user: updateUser,
-                    users: allUsers
+                    user: updateUser
                 });
             }
             catch (error) {

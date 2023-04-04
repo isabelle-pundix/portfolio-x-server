@@ -21,8 +21,9 @@ router.post("/adduser", authMiddleware, validationMiddleware(UserDto), userContr
 router.put("/updateuser/:id", authMiddleware, userController.updateUser);
 router.delete("/deleteuser/:id", authMiddleware, userController.deleteUser);
 
-//fetch user details
+//User
 router.get("/user", authMiddleware, userController.getUser)
+router.put("/user/:id", authMiddleware, userController.updateUser);
 
 //Auth
 router.post("/register", validationMiddleware(UserDto), authController.registerNewUser);
@@ -31,10 +32,10 @@ router.post("/refreshToken", authController.refreshToken);
 router.post("/logout", authController.logout);
 
 //Notes
-router.get("/getnotes", authMiddleware, noteController.getUserNotes);
-router.post("/addnote", authMiddleware, validationMiddleware(NoteDto), noteController.addUserNote);
-router.put("/updatenote/:noteId", authMiddleware, validationMiddleware(NoteDto), noteController.updateUserNote);
-router.delete("/deletenote/:noteId", authMiddleware, noteController.deleteUserNote);
+router.get("/note", authMiddleware, noteController.getUserNotes);
+router.post("/note", authMiddleware, validationMiddleware(NoteDto), noteController.addUserNote);
+router.put("/note/:noteId", authMiddleware, validationMiddleware(NoteDto), noteController.updateUserNote);
+router.delete("/note/:noteId", authMiddleware, noteController.deleteUserNote);
 
 //CMC
 router.get("/getCmcMeta", authMiddleware, cmcDataController.getMetaData);

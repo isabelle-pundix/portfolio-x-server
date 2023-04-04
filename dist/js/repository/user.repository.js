@@ -54,7 +54,7 @@ class UserRepository {
     updateUser(id, body) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const updateUser = yield this.User.findByIdAndUpdate({ _id: id }, body);
+                const updateUser = yield this.User.findByIdAndUpdate({ _id: id }, body, { new: true });
                 return updateUser;
             }
             catch (error) {
