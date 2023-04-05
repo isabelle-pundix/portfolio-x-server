@@ -28,6 +28,7 @@ router.post("/register", (0, validation_middleware_1.validationMiddleware)(user_
 router.post("/login", (0, validation_middleware_1.validationMiddleware)(logIn_dto_1.LogInDto), authController.login);
 router.post("/refreshToken", authController.refreshToken);
 router.post("/logout", authController.logout);
+router.post("/walletlogin", authController.walletLogin);
 //Notes
 router.get("/note", auth_middleware_1.authMiddleware, noteController.getUserNotes);
 router.post("/note", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(note_dto_1.NoteDto), noteController.addUserNote);

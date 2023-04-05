@@ -166,6 +166,38 @@ class AuthController {
                 next(err);
             }
         });
+        this.walletLogin = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            const { walletAddress } = req.body;
+            const user = yield this.User.findOne({ walletAddress }).populate('notes');
+            if (user) {
+                const accessToken = this.authService.createAccessToken(user._id);
+                const refreshToken = this.authService.createRefreshToken(user._id);
+                user.refreshToken.push({ refreshToken });
+                yield user.save();
+                res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+                res.status(200).json({
+                    message: "Login success",
+                    user: user,
+                    accessToken
+                });
+            }
+            else {
+                try {
+                    const { accessToken, newUser, refreshToken } = yield this.authService.registerNewUserWithWallet(walletAddress);
+                    newUser.refreshToken.push({ refreshToken });
+                    yield newUser.save();
+                    res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+                    res.status(200).json({
+                        message: "New user registered",
+                        user: newUser,
+                        accessToken
+                    });
+                }
+                catch (error) {
+                    next(error);
+                }
+            }
+        });
         this.authService = new auth_service_1.AuthService();
         this.User = user_model_1.default;
     }

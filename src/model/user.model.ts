@@ -17,11 +17,11 @@ const UserSchema: Schema = new Schema(
         },
         name: {
             type: String,
-            required: true
+            // required: true
         },
         email: {
             type: String,
-            required: true
+            // required: true
         },
         walletAddress: {
             type: String,
@@ -29,7 +29,7 @@ const UserSchema: Schema = new Schema(
         },
         password: {
             type: String,
-            required: true
+            // required: true
         },
         status: {
             type: Boolean,

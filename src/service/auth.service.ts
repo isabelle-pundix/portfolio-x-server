@@ -52,9 +52,18 @@ export class AuthService {
         //(Oauth2.0??)
     }
 
-    // public createCookie(token: Token): any {
-    //     return `Authorization=${token.token}; Max-Age=${token.expiresIn}`;
-    // }
+    public async registerNewUserWithWallet(walletAddress: string): Promise<{ accessToken: string, newUser: UserInterface, refreshToken: string }> {
+        const user: UserInterface = new User({
+            walletAddress: walletAddress,
+            status: false
+        });
+        const newUser: UserInterface = await this.userRepository.addUser(user);
+        const accessToken = this.createAccessToken(newUser._id)
+        const refreshToken = this.createRefreshToken(newUser._id)
+        // const cookie: any = this.createCookie(tokenData);
+        return { accessToken, newUser, refreshToken };
+        //(Oauth2.0??)
+    }
 
     public createAccessToken(userId: UserInterface["_id"]): string {
         let signOptions: any = {
