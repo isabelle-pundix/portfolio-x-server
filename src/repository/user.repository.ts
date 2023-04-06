@@ -1,5 +1,6 @@
 import { UserInterface } from "../types/user";
 import User from "../model/user.model";
+import { UserException } from "../exceptions/userException";
 
 export class UserRepository {
 
@@ -40,6 +41,15 @@ export class UserRepository {
     }
 
     public async updateUser(id: String | Number, field: any): Promise<UserInterface | null> {
+        const { email, walletAddress } = field
+
+        if (email) {
+            if (await this.User.findOne({ email })) throw new UserException().alreadyExist()
+        }
+        if (walletAddress) {
+            if (await this.User.findOne({ walletAddress })) throw new UserException().walletAddressUsed()
+        }
+
         try {
             const updateUser: UserInterface | null = await this.User.findByIdAndUpdate(
                 { _id: id },

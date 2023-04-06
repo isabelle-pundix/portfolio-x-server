@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { UserInterface } from "../types/user";
 import { UserService } from "../service/user.service";
 import { UserDto } from "../dto/user.dto";
@@ -51,18 +51,18 @@ export class UserController {
         }
     }
 
-    public updateUser = async (req: Request, res: Response): Promise<void> => {
+    public updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            const updateUser: UserInterface | null = await this.userService.updateUser(req);
+            const updatedUser: UserInterface | null = await this.userService.updateUser(req);
             res.status(200).json(
                 {
                     message: "User updated",
-                    user: updateUser
+                    user: updatedUser
                 }
             );
         } catch (error) {
             console.log("Err");
-            throw error;
+            next(error)
         }
     }
 
