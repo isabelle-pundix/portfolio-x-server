@@ -131,7 +131,7 @@ export class AuthController {
                         (item) => item.refreshToken === refreshToken
                     );
                     if (tokenIndex !== -1) {
-                        await User.findByIdAndUpdate(userId, { $pull: { refreshToken: {refreshToken: refreshToken}} })
+                        await User.findByIdAndUpdate(userId, { $pull: { refreshToken: { refreshToken: refreshToken } } })
                     } else {
                         next(new CredentialsException())
                     }
@@ -150,5 +150,39 @@ export class AuthController {
 
     }
 
+    public walletLogin = async (req: Request, res: Response, next: NextFunction) => {
+        const { walletAddress } = req.body
+        const user: UserInterface = await this.User.findOne({ walletAddress }).populate('notes');
+        if (user) {
+            const accessToken: string = this.authService.createAccessToken(user._id);
+            const refreshToken: string = this.authService.createRefreshToken(user._id)
+            user.refreshToken.push({ refreshToken })
+            await user.save()
+            res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+            res.status(200).json(
+                {
+                    message: "Login success",
+                    user: user,
+                    accessToken
+                }
+            );
+        } else {
+            try {
+                const { accessToken, newUser, refreshToken } = await this.authService.registerNewUserWithWallet(walletAddress);
+                newUser.refreshToken.push({ refreshToken })
+                await newUser.save()
+                res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+                res.status(200).json(
+                    {
+                        message: "New user registered",
+                        user: newUser,
+                        accessToken
+                    }
+                );
+            } catch (error) {
+                next(error);
+            }
+        }
+    }
     //sessions?
 }

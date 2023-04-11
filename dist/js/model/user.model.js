@@ -15,11 +15,11 @@ const UserSchema = new mongoose_1.Schema({
     },
     name: {
         type: String,
-        required: true
+        // required: true
     },
     email: {
         type: String,
-        required: true
+        // required: true
     },
     walletAddress: {
         type: String,
@@ -27,7 +27,7 @@ const UserSchema = new mongoose_1.Schema({
     },
     password: {
         type: String,
-        required: true
+        // required: true
     },
     status: {
         type: Boolean,

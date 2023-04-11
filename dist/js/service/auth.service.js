@@ -78,9 +78,20 @@ class AuthService {
             //(Oauth2.0??)
         });
     }
-    // public createCookie(token: Token): any {
-    //     return `Authorization=${token.token}; Max-Age=${token.expiresIn}`;
-    // }
+    registerNewUserWithWallet(walletAddress) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = new user_model_1.default({
+                walletAddress: walletAddress,
+                status: false
+            });
+            const newUser = yield this.userRepository.addUser(user);
+            const accessToken = this.createAccessToken(newUser._id);
+            const refreshToken = this.createRefreshToken(newUser._id);
+            // const cookie: any = this.createCookie(tokenData);
+            return { accessToken, newUser, refreshToken };
+            //(Oauth2.0??)
+        });
+    }
     createAccessToken(userId) {
         let signOptions = {
             expiresIn: 60 * 20,

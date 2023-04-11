@@ -32,6 +32,7 @@ router.post("/register", validationMiddleware(UserDto), authController.registerN
 router.post("/login", validationMiddleware(LogInDto), authController.login);
 router.post("/refreshToken", authController.refreshToken);
 router.post("/logout", authController.logout);
+router.post("/walletlogin", authController.walletLogin)
 
 //Notes
 router.get("/note", authMiddleware, noteController.getUserNotes);

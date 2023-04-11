@@ -49,17 +49,17 @@ class UserController {
                 throw error;
             }
         });
-        this.updateUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.updateUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const updateUser = yield this.userService.updateUser(req);
+                const updatedUser = yield this.userService.updateUser(req);
                 res.status(200).json({
                     message: "User updated",
-                    user: updateUser
+                    user: updatedUser
                 });
             }
             catch (error) {
                 console.log("Err");
-                throw error;
+                next(error);
             }
         });
         this.deleteUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
