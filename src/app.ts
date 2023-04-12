@@ -11,7 +11,8 @@ const PORT: string | number = process.env.PORT || 4000;
 
 //Initialize middlewares/functions and routes
 const corsOptions = {
-    origin: "http://localhost:3000",
+    //origin: "http://localhost:3000",
+    origin: "http://47.90.209.195:3000",
     methods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
     credentials: true,
 }
