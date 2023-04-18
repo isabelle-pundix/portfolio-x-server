@@ -28,3 +28,6 @@ yarn-error.log*
 /csr.pem
 /key.pem
 /.env
+/fx-core
+/sslcert/fxportfolio.crt
+/sslcert/fxportfolio.key
