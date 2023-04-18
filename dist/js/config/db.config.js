@@ -37,7 +37,7 @@ const mongoose_1 = __importStar(require("mongoose"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 let db;
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4001;
 const connectDb = (app) => {
     if (db) {
         return;

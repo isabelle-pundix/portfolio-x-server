@@ -13,7 +13,7 @@ const PORT: string | number = process.env.PORT || 4000;
 
 //Initialize middlewares/functions and routes
 const corsOptions = {
-    //origin: "http://localhost:3000",
+    //origin: "https://localhost:3000",
     origin: "http://fxportfolio.top:3000",
     methods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
     credentials: true,
@@ -32,8 +32,8 @@ connectDb(app);
 https
     .createServer(
         {
-            key: fs.readFileSync("/root/FXDefiPortfolioServer/sslcert/fxportfolio.key"),
-            cert: fs.readFileSync("/root/FXDefiPortfolioServer/sslcert/fxportfolio.crt")
+            key: fs.readFileSync("./sslcert/fxportfolio.key"),
+            cert: fs.readFileSync("./sslcert/fxportfolio.crt")
         },
         app
     ).listen(4000, () => {
