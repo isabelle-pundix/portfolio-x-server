@@ -13,8 +13,8 @@ const PORT: string | number = process.env.PORT || 4000;
 
 //Initialize middlewares/functions and routes
 const corsOptions = {
-    //origin: "https://localhost:3000",
-    origin: "http://fxportfolio.top:3000",
+    origin: "https://localhost:3000",
+    //origin: "http://fxportfolio.top:3000",
     methods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
     credentials: true,
 }
