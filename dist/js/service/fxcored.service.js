@@ -238,7 +238,7 @@ class FxcoredService {
      * @param limit The number of transactions per page returned (default to 100).
      * @returns A NodeTxnEventsRes object.
      */
-    getNodeTxsEvents(msgSender, msgModule, limit = 100) {
+    getNodeTxsEvents(msgSender, msgModule, limit = 1000) {
         try {
             //Execution is blocking
             const result = cp.execSync(`fxcored query txs \
@@ -287,7 +287,7 @@ class FxcoredService {
      * @param limit The number of transactions per page returned (default to 100).
      * @returns A RestTxnEventsRes object.
      */
-    getRestTxsEvents(msgSender, msgModule, limit = 100) {
+    getRestTxsEvents(msgSender, msgModule, limit = 1000) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield this.mainnetApi(`/cosmos/tx/v1beta1/txs?events=message.sender%3D'${msgSender}'&events=message.module%3D'${msgModule}'&pagination.limit=${limit}`)

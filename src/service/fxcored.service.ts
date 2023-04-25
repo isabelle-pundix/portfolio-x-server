@@ -204,7 +204,7 @@ export class FxcoredService {
      * @param limit The number of transactions per page returned (default to 100).
      * @returns A NodeTxnEventsRes object.
      */
-    public getNodeTxsEvents(msgSender: string, msgModule: string, limit: number = 100): NodeTxnEventsRes {
+    public getNodeTxsEvents(msgSender: string, msgModule: string, limit: number = 1000): NodeTxnEventsRes {
         try {
             //Execution is blocking
             const result = cp.execSync(
@@ -268,7 +268,7 @@ export class FxcoredService {
      * @param limit The number of transactions per page returned (default to 100).
      * @returns A RestTxnEventsRes object.
      */
-    public async getRestTxsEvents(msgSender: string, msgModule: string, limit: number = 100): Promise<RestTxnEventsRes> {
+    public async getRestTxsEvents(msgSender: string, msgModule: string, limit: number = 1000): Promise<RestTxnEventsRes> {
         try {
             const result = await this.mainnetApi(
                 `/cosmos/tx/v1beta1/txs?events=message.sender%3D'${msgSender}'&events=message.module%3D'${msgModule}'&pagination.limit=${limit}`)
