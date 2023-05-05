@@ -10,6 +10,11 @@ const Session = new Schema({
     },
 });
 
+const averagePriceInfo = new Schema({
+    amount: { type: String },
+    averagePrice: { type: String }
+})
+
 const UserSchema: Schema = new Schema(
     {
         seq: {
@@ -42,6 +47,14 @@ const UserSchema: Schema = new Schema(
         refreshToken: {
             type: [Session],
         },
+        delegationsAveragePriceInfo: {
+            new: { type: Boolean },
+            delegatedValidators: {
+                type: Map,
+                of: averagePriceInfo
+            },
+            height: {type: Number}
+        }
     },
     {
         timestamps: true,

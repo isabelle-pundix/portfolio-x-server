@@ -9,6 +9,10 @@ const Session = new mongoose_1.Schema({
         default: "",
     },
 });
+const averagePriceInfo = new mongoose_1.Schema({
+    amount: { type: String },
+    averagePrice: { type: String }
+});
 const UserSchema = new mongoose_1.Schema({
     seq: {
         type: Number
@@ -40,6 +44,14 @@ const UserSchema = new mongoose_1.Schema({
     refreshToken: {
         type: [Session],
     },
+    delegationsAveragePriceInfo: {
+        new: { type: Boolean },
+        delegatedValidators: {
+            type: Map,
+            of: averagePriceInfo
+        },
+        height: { type: Number }
+    }
 }, {
     timestamps: true,
     toJSON: {
