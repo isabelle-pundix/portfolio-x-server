@@ -8,18 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const user_service_1 = require("../service/user.service");
+const logger_1 = __importDefault(require("../logs/logger"));
 class UserController {
     constructor() {
         this.getUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const id = req.user;
                 const user = yield this.userService.getUserById(id);
+                logger_1.default.info(`App loaded with user: ${user.walletAddress}`);
                 res.status(200).json({ user });
             }
             catch (error) {
+                logger_1.default.error(`Get User error`);
                 throw error;
             }
         });
@@ -46,19 +52,21 @@ class UserController {
                 });
             }
             catch (error) {
+                logger_1.default.error(`Add user error`);
                 throw error;
             }
         });
         this.updateUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const updatedUser = yield this.userService.updateUser(req);
+                logger_1.default.info(`User updated: ${updatedUser === null || updatedUser === void 0 ? void 0 : updatedUser.walletAddress} - ${JSON.stringify(Object.keys(req.body.fieldToEdit)[0])}`);
                 res.status(200).json({
                     message: "User updated",
                     user: updatedUser
                 });
             }
             catch (error) {
-                console.log("Err");
+                logger_1.default.error(`User update error`);
                 next(error);
             }
         });
@@ -73,6 +81,7 @@ class UserController {
                 });
             }
             catch (error) {
+                logger_1.default.error("Delete user error");
                 throw error;
             }
         });

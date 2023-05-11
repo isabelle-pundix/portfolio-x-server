@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NoteController = void 0;
 const note_service_1 = require("../service/note.service");
+const logger_1 = __importDefault(require("../logs/logger"));
 class NoteController {
     constructor() {
         this.noteService = new note_service_1.NoteService();
@@ -24,6 +28,7 @@ class NoteController {
                 });
             }
             catch (error) {
+                logger_1.default.error("Note retrieval error");
                 throw error;
             }
         });
@@ -32,12 +37,14 @@ class NoteController {
                 const userId = req.user.toString();
                 const noteData = req.body;
                 const newNote = yield this.noteService.addUserNote(userId, noteData);
+                logger_1.default.info(`New note added: ${newNote.user.walletAddress} - ${newNote.id}`);
                 res.status(201).json({
                     message: "Note added",
                     note: newNote
                 });
             }
             catch (error) {
+                logger_1.default.error(`Add note error`);
                 throw error;
             }
         });
@@ -48,6 +55,7 @@ class NoteController {
                 const noteData = req.body;
                 const updatedNote = yield this.noteService.updateUserNote(userId, noteId, noteData);
                 const userNotes = yield this.noteService.getUserNotes(userId);
+                logger_1.default.info(`Note updated: ${updatedNote === null || updatedNote === void 0 ? void 0 : updatedNote.user.walletAddress} - ${updatedNote === null || updatedNote === void 0 ? void 0 : updatedNote.id}`);
                 res.status(201).json({
                     message: "Note updated",
                     note: updatedNote,
@@ -55,6 +63,7 @@ class NoteController {
                 });
             }
             catch (error) {
+                logger_1.default.info(`Note update error`);
                 throw error;
             }
         });
@@ -64,6 +73,7 @@ class NoteController {
                 const noteId = req.params.noteId;
                 const deletedNote = yield this.noteService.deleteUserNote(userId, noteId);
                 const userNotes = yield this.noteService.getUserNotes(userId);
+                logger_1.default.info(`Note deleted: ${deletedNote === null || deletedNote === void 0 ? void 0 : deletedNote.user.walletAddress}`);
                 res.status(200).json({
                     message: "Note deleted",
                     note: deletedNote,
@@ -71,6 +81,7 @@ class NoteController {
                 });
             }
             catch (error) {
+                logger_1.default.info(`Note delete error`);
                 throw error;
             }
         });
