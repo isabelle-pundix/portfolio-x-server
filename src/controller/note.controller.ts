@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { NoteService } from "../service/note.service";
 import { NoteInterface } from "../types/note";
 import { NoteDto } from "../dto/note.dto";
+import logger from "../logs/logger";
 
 export class NoteController {
 
@@ -22,6 +23,7 @@ export class NoteController {
                 }
             );
         } catch (error) {
+            logger.error("Note retrieval error")
             throw error;
         }
     }
@@ -31,6 +33,7 @@ export class NoteController {
             const userId: String = req.user.toString();
             const noteData: NoteDto = req.body;
             const newNote: NoteInterface = await this.noteService.addUserNote(userId, noteData);
+            logger.info(`New note added: ${newNote.user.walletAddress} - ${newNote.id}`)
             res.status(201).json(
                 {
                     message: "Note added",
@@ -38,6 +41,7 @@ export class NoteController {
                 }
             );
         } catch (error) {
+            logger.error(`Add note error`);
             throw error;
         }
     }
@@ -49,6 +53,7 @@ export class NoteController {
             const noteData: NoteDto = req.body;
             const updatedNote: NoteInterface | null = await this.noteService.updateUserNote(userId, noteId, noteData);
             const userNotes: Array<NoteInterface> = await this.noteService.getUserNotes(userId);
+            logger.info(`Note updated: ${updatedNote?.user.walletAddress} - ${updatedNote?.id}`);
             res.status(201).json(
                 {
                     message: "Note updated",
@@ -57,6 +62,7 @@ export class NoteController {
                 }
             );
         } catch (error) {
+            logger.info(`Note update error`);
             throw error;
         }
     }
@@ -67,6 +73,7 @@ export class NoteController {
             const noteId: String = req.params.noteId;
             const deletedNote: NoteInterface | null = await this.noteService.deleteUserNote(userId, noteId);
             const userNotes: Array<NoteInterface> = await this.noteService.getUserNotes(userId);
+            logger.info(`Note deleted: ${deletedNote?.user.walletAddress}`)
             res.status(200).json(
                 {
                     message: "Note deleted",
@@ -75,6 +82,7 @@ export class NoteController {
                 }
             );
         } catch (error) {
+            logger.info(`Note delete error`);
             throw error;
         }
     }

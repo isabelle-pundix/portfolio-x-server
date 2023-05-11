@@ -9,6 +9,7 @@ import { CredentialsException } from "./../exceptions/credentialsException";
 import * as jwt from "jsonwebtoken";
 import * as fs from "fs";
 import { TokenPayload } from "../types/tokenPayload";
+import logger from "../logs/logger";
 
 const COOKIE_OPTIONS = {
     httpOnly: true,
@@ -35,6 +36,7 @@ export class AuthController {
             const { accessToken, newUser, refreshToken } = await this.authService.registerNewUser(userData);
             newUser.refreshToken.push({ refreshToken })
             await newUser.save()
+            logger.info(`New User Registration: ${newUser.email}`);
             res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
             res.status(200).json(
                 {
@@ -44,6 +46,7 @@ export class AuthController {
                 }
             );
         } catch (error) {
+            logger.error(`User registration error`);
             next(error);
         }
     }
@@ -60,6 +63,7 @@ export class AuthController {
                 const refreshToken: string = this.authService.createRefreshToken(user._id)
                 user.refreshToken.push({ refreshToken })
                 await user.save()
+                logger.info(`Login: ${user.walletAddress}`);
                 res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
                 res.status(200).json(
                     {
@@ -69,9 +73,11 @@ export class AuthController {
                     }
                 );
             } else {
+                logger.info(`Password mismatch: ${user.walletAddress}`);
                 next(new CredentialsException());
             }
         } else {
+            logger.error(`Login error`);
             next(new CredentialsException());
         }
     }
@@ -108,6 +114,7 @@ export class AuthController {
                     next(new CredentialsException())
                 }
             } catch (err) {
+                logger.error(`Refresh Token error`);
                 next(err)
             }
         } else {
@@ -135,6 +142,7 @@ export class AuthController {
                     } else {
                         next(new CredentialsException())
                     }
+                    logger.info(`Logout: ${user.walletAddress}`);
                     res.clearCookie("refreshToken", COOKIE_OPTIONS)
                     res.status(200).json({ success: true })
 
@@ -145,6 +153,7 @@ export class AuthController {
                 next(new CredentialsException())
             }
         } catch (err) {
+            logger.error(`Logout error`);
             next(err)
         }
 
@@ -158,6 +167,7 @@ export class AuthController {
             const refreshToken: string = this.authService.createRefreshToken(user._id)
             user.refreshToken.push({ refreshToken })
             await user.save()
+            logger.info(`Wallet Login: ${user.walletAddress}`);
             res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
             res.status(200).json(
                 {
@@ -171,6 +181,7 @@ export class AuthController {
                 const { accessToken, newUser, refreshToken } = await this.authService.registerNewUserWithWallet(walletAddress);
                 newUser.refreshToken.push({ refreshToken })
                 await newUser.save()
+                logger.info(`Wallet Registration - New User: ${newUser.walletAddress}`);
                 res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
                 res.status(200).json(
                     {
@@ -180,9 +191,17 @@ export class AuthController {
                     }
                 );
             } catch (error) {
+                logger.error(`Wallet Login/Registration error`);
                 next(error);
             }
         }
     }
-    //sessions?
+    
+    public test = async (req: Request, res: Response, next: NextFunction) => {
+        logger.info("test method");
+        logger.error("test error");
+        res.status(200).json({
+            test: "test"
+        })
+    }
 }

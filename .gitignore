@@ -31,3 +31,6 @@ yarn-error.log*
 /fx-core
 /sslcert/fxportfolio.crt
 /sslcert/fxportfolio.key
+
+/src/logs/info.log
+/src/logs/error.log

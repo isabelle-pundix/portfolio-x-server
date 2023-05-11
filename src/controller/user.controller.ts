@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { UserInterface } from "../types/user";
 import { UserService } from "../service/user.service";
 import { UserDto } from "../dto/user.dto";
+import logger from "../logs/logger";
 
 export class UserController {
 
@@ -15,8 +16,10 @@ export class UserController {
         try {
             const id = req.user
             const user: UserInterface = await this.userService.getUserById(id as string);
+            logger.info(`App loaded with user: ${user.walletAddress}`);
             res.status(200).json({ user });
         } catch (error) {
+            logger.error(`Get User error`);
             throw error;
         }
     }
@@ -47,6 +50,7 @@ export class UserController {
                 }
             );
         } catch (error) {
+            logger.error(`Add user error`);
             throw error;
         }
     }
@@ -54,6 +58,7 @@ export class UserController {
     public updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const updatedUser: UserInterface | null = await this.userService.updateUser(req);
+            logger.info(`User updated: ${updatedUser?.walletAddress} - ${JSON.stringify(Object.keys(req.body.fieldToEdit)[0])}`);
             res.status(200).json(
                 {
                     message: "User updated",
@@ -61,7 +66,7 @@ export class UserController {
                 }
             );
         } catch (error) {
-            console.log("Err");
+            logger.error(`User update error`);
             next(error)
         }
     }
@@ -78,6 +83,7 @@ export class UserController {
                 }
             );
         } catch (error) {
+            logger.error("Delete user error");
             throw error;
         }
     }
