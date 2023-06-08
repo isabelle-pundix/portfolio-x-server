@@ -58,7 +58,7 @@ export class UserController {
     public updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const updatedUser: UserInterface | null = await this.userService.updateUser(req);
-            logger.info(`User updated: ${updatedUser?.walletAddress} - ${JSON.stringify(Object.keys(req.body.fieldToEdit)[0])}`);
+            //logger.info(`User updated: ${updatedUser?.walletAddress} - ${JSON.stringify(Object.keys(req.body.fieldToEdit)[0])}`);
             res.status(200).json(
                 {
                     message: "User updated",

@@ -59,7 +59,7 @@ class UserController {
         this.updateUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const updatedUser = yield this.userService.updateUser(req);
-                logger_1.default.info(`User updated: ${updatedUser === null || updatedUser === void 0 ? void 0 : updatedUser.walletAddress} - ${JSON.stringify(Object.keys(req.body.fieldToEdit)[0])}`);
+                //logger.info(`User updated: ${updatedUser?.walletAddress} - ${JSON.stringify(Object.keys(req.body.fieldToEdit)[0])}`);
                 res.status(200).json({
                     message: "User updated",
                     user: updatedUser
