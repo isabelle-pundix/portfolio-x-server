@@ -34,3 +34,5 @@ yarn-error.log*
 
 /src/logs/info.log
 /src/logs/error.log
+
+.idea
