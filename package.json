@@ -4,15 +4,17 @@
   "main": "app.js",
   "scripts": {
     "build": "tsc",
+    "tsc": "tsc",
     "start": "concurrently \"tsc -w\" \"nodemon dist/js/app.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Malcolm Tan 陈哲瑞 <malcolm@pundix.com>, Goh Jin Zhu <gohjinzhu@pundix.com>",
+  "author": "Malcolm Tan 陈哲瑞 <malcolm@pundix.com>",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.2.4",
     "bcrypt": "^5.1.0",
+    "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.2",
@@ -25,6 +27,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/compression": "^1.7.2",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.14",
@@ -40,5 +43,13 @@
     "dotenv": "^16.0.3",
     "nodemon": "^2.0.20"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malcolmtzr/FXDefiPortfolioServer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/malcolmtzr/FXDefiPortfolioServer/issues"
+  },
+  "homepage": "https://github.com/malcolmtzr/FXDefiPortfolioServer#readme",
   "description": ""
 }

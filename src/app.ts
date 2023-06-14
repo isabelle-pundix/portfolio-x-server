@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./middleware/error.middleware";
 import https from "https";
 import fs from "fs";
+import compression from "compression";
 
 const app: Express = express();
 const PORT: string | number = process.env.PORT || 4000;
@@ -14,10 +15,11 @@ const PORT: string | number = process.env.PORT || 4000;
 //Initialize middlewares/functions and routes
 const corsOptions = {
     origin: "https://localhost:3000",
-    //origin: "http://fxportfolio.top:3000",
+    //origin: "https://portfolio-x.xyz",
     methods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
     credentials: true,
 }
+app.use(compression());
 app.use(cors(corsOptions));
 app.use(express.json());
 //app.use(bodyParser.json()); //is this needed since its already included in express?

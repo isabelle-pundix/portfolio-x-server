@@ -11,15 +11,17 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const error_middleware_1 = require("./middleware/error.middleware");
 const https_1 = __importDefault(require("https"));
 const fs_1 = __importDefault(require("fs"));
+const compression_1 = __importDefault(require("compression"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 4000;
 //Initialize middlewares/functions and routes
 const corsOptions = {
     origin: "https://localhost:3000",
-    //origin: "http://fxportfolio.top:3000",
+    //origin: "https://portfolio-x.xyz",
     methods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
     credentials: true,
 };
+app.use((0, compression_1.default)());
 app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());
 //app.use(bodyParser.json()); //is this needed since its already included in express?
