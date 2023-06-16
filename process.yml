@@ -1,0 +1,5 @@
+apps:
+  - name: portfolio-x-server
+    script: ./dist/js/app.js
+    exec_mode: cluster
+    instances: max
