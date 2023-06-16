@@ -22,7 +22,6 @@ const corsOptions = {
 app.use(compression());
 app.use(cors(corsOptions));
 app.use(express.json());
-//app.use(bodyParser.json()); //is this needed since its already included in express?
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(IndexRoutes);
 
