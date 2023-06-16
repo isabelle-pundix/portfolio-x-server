@@ -24,7 +24,6 @@ const corsOptions = {
 app.use((0, compression_1.default)());
 app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());
-//app.use(bodyParser.json()); //is this needed since its already included in express?
 app.use((0, cookie_parser_1.default)(process.env.COOKIE_SECRET));
 app.use(index_1.default);
 //initialize error handling middleware

@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Malcolm Tan 陈哲瑞 <malcolm@pundix.com>",
+  "author": "Malcolm Tan <malcolm@pundix.com>",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.2.4",
