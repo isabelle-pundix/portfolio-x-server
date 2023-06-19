@@ -10,7 +10,7 @@ import fs from "fs";
 import compression from "compression";
 
 const app: Express = express();
-const PORT: string | number = process.env.PORT || 4000;
+const PORT: string | number = process.env.PORT || 5000;
 
 //Initialize middlewares/functions and routes
 const corsOptions = {
@@ -37,6 +37,6 @@ https
             cert: fs.readFileSync("./sslcert/fxportfolio.crt")
         },
         app
-    ).listen(4000, () => {
-        console.log("Https server running on port 4000")
+    ).listen(5000, () => {
+        console.log("Https server running on port 5000")
     });
