@@ -34,7 +34,7 @@ router.post("/walletlogin", authController.walletLogin);
 //Notes
 router.get("/note", auth_middleware_1.authMiddleware, noteController.getUserNotes);
 router.post("/note", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(note_dto_1.NoteDto), noteController.addUserNote);
-router.put("/note/:noteId", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(note_dto_1.NoteDto), noteController.updateUserNote);
+router.post("/note/:noteId", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(note_dto_1.NoteDto), noteController.updateUserNote);
 router.delete("/note/:noteId", auth_middleware_1.authMiddleware, noteController.deleteUserNote);
 //CMC
 router.get("/getCmcMeta", auth_middleware_1.authMiddleware, cmcDataController.getMetaData);
