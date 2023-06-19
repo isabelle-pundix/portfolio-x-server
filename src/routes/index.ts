@@ -37,7 +37,7 @@ router.post("/walletlogin", authController.walletLogin)
 //Notes
 router.get("/note", authMiddleware, noteController.getUserNotes);
 router.post("/note", authMiddleware, validationMiddleware(NoteDto), noteController.addUserNote);
-router.put("/note/:noteId", authMiddleware, validationMiddleware(NoteDto), noteController.updateUserNote);
+router.post("/note/:noteId", authMiddleware, validationMiddleware(NoteDto), noteController.updateUserNote);
 router.delete("/note/:noteId", authMiddleware, noteController.deleteUserNote);
 
 //CMC

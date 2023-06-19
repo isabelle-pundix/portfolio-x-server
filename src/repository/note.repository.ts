@@ -28,11 +28,12 @@ export class NoteRepository {
             //Embed to User
             let user: UserInterface = await this.User.findById(userId);
             user.notes.push(note);
-            user.save();
+            await user.save();
 
             //Save to notes collection
             await note.save();
-            const newNote: NoteInterface = this.Note.findById(note._id);
+            const newNote: NoteInterface = await this.Note.findById(note._id);
+            newNote.user.walletAddress = user.walletAddress;
             return newNote;
         } catch (error) {
             throw error;
@@ -41,6 +42,7 @@ export class NoteRepository {
 
     public async updateUserNote(userId: String, noteId: String, note: NoteDto): Promise<NoteInterface | null> {
         try {
+            // const user: UserInterface = await this.User.findById(userId)
             //update embedded document
             const updatedUserNote: UserInterface | null = await this.User.findByIdAndUpdate(
                 { _id: userId, "notes.id": noteId },
@@ -59,6 +61,9 @@ export class NoteRepository {
                     }
                 }
             );
+            if (updatedNote && updatedUserNote) {
+                updatedNote.user.walletAddress = updatedUserNote.walletAddress
+            }
             return updatedNote;
         } catch (error) {
             throw error;

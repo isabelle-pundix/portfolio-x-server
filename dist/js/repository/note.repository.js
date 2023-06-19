@@ -37,10 +37,11 @@ class NoteRepository {
                 //Embed to User
                 let user = yield this.User.findById(userId);
                 user.notes.push(note);
-                user.save();
+                yield user.save();
                 //Save to notes collection
                 yield note.save();
-                const newNote = this.Note.findById(note._id);
+                const newNote = yield this.Note.findById(note._id);
+                newNote.user.walletAddress = user.walletAddress;
                 return newNote;
             }
             catch (error) {
@@ -51,6 +52,7 @@ class NoteRepository {
     updateUserNote(userId, noteId, note) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                // const user: UserInterface = await this.User.findById(userId)
                 //update embedded document
                 const updatedUserNote = yield this.User.findByIdAndUpdate({ _id: userId, "notes.id": noteId }, {
                     $set: {
@@ -63,6 +65,9 @@ class NoteRepository {
                         content: note.content,
                     }
                 });
+                if (updatedNote && updatedUserNote) {
+                    updatedNote.user.walletAddress = updatedUserNote.walletAddress;
+                }
                 return updatedNote;
             }
             catch (error) {
