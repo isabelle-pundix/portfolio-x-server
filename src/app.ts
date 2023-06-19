@@ -14,8 +14,8 @@ const PORT: string | number = process.env.PORT || 4000;
 
 //Initialize middlewares/functions and routes
 const corsOptions = {
-    origin: "https://localhost:3000",
-    //origin: "https://portfolio-x.xyz",
+    //origin: "https://localhost:3000",
+    origin: "https://portfolio-x.xyz",
     methods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
     credentials: true,
 }
@@ -37,6 +37,6 @@ https
             cert: fs.readFileSync("./sslcert/fxportfolio.crt")
         },
         app
-    ).listen(4000, () => {
-        console.log("Https server running on port 4000")
+    ).listen(5000, () => {
+        console.log("Https server running on port 5000")
     });
