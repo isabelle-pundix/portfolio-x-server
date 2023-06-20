@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 let db: Connection;
-const PORT: string | number = process.env.PORT || 4001;
+const PORT: string | number = process.env.PORT || 5001;
 
 export const connectDb = (app: Express) => {
     if (db) {

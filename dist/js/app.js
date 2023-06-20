@@ -13,7 +13,7 @@ const https_1 = __importDefault(require("https"));
 const fs_1 = __importDefault(require("fs"));
 const compression_1 = __importDefault(require("compression"));
 const app = (0, express_1.default)();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 //Initialize middlewares/functions and routes
 const corsOptions = {
     //origin: "https://localhost:3000",
@@ -33,6 +33,6 @@ https_1.default
     .createServer({
     key: fs_1.default.readFileSync("./sslcert/fxportfolio.key"),
     cert: fs_1.default.readFileSync("./sslcert/fxportfolio.crt")
-}, app).listen(4000, () => {
-    console.log("Https server running on port 4000");
+}, app).listen(5000, () => {
+    console.log("Https server running on port 5000");
 });

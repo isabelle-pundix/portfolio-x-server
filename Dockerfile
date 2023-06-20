@@ -1,14 +1,14 @@
 FROM node:latest
 
-ENV NODE_ENV production
-
 WORKDIR /server/app
 
-COPY package*.json ./
+COPY . .
 
 RUN npm install
 
-COPY . .
+ENV NODE_ENV production
+
+COPY package*.json ./
 
 EXPOSE 5000
 
