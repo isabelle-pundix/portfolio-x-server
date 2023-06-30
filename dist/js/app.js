@@ -14,10 +14,12 @@ const fs_1 = __importDefault(require("fs"));
 const compression_1 = __importDefault(require("compression"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
+const CLIENT_LOCAL_PROD = "http://localhost:3000";
+const CLIENT_LOCAL_DEV = "https://localhost:3000";
+const CLIENT_PROD = "https://portfolio-x.xyz";
 //Initialize middlewares/functions and routes
 const corsOptions = {
-    origin: "https://localhost:3000",
-    //origin: "https://portfolio-x.xyz",
+    origin: CLIENT_LOCAL_PROD,
     methods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
     credentials: true,
 };
