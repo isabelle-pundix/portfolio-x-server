@@ -12,10 +12,13 @@ import compression from "compression";
 const app: Express = express();
 const PORT: string | number = process.env.PORT || 5000;
 
+const CLIENT_LOCAL_PROD: string = "http://localhost:3000";
+const CLIENT_LOCAL_DEV: string = "https://localhost:3000";
+const CLIENT_PROD: string = "https://portfolio-x.xyz";
+
 //Initialize middlewares/functions and routes
 const corsOptions = {
-    //origin: "https://localhost:3000",
-    origin: "https://portfolio-x.xyz",
+    origin: CLIENT_LOCAL_PROD,
     methods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
     credentials: true,
 }
