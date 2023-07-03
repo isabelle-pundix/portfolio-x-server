@@ -15,6 +15,7 @@ const authController = new AuthController();
 const noteController = new NoteController();
 const cmcDataController = new CmcDataController();
 const fxcoredController = new FxcoredController();
+
 const router: Router = Router();
 
 //Test CRUD only
