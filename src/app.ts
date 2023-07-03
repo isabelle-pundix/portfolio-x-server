@@ -8,9 +8,12 @@ import { errorMiddleware } from "./middleware/error.middleware";
 import https from "https";
 import fs from "fs";
 import compression from "compression";
+import router from "./routes/index";
 
 const app: Express = express();
 const PORT: string | number = process.env.PORT || 5000;
+
+const prefix = "/api";
 
 const CLIENT_LOCAL_PROD: string = "http://localhost:3000";
 const CLIENT_LOCAL_DEV: string = "https://localhost:3000";
@@ -26,7 +29,7 @@ app.use(compression());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(IndexRoutes);
+app.use(prefix, IndexRoutes);
 
 //initialize error handling middleware
 app.use(errorMiddleware)
