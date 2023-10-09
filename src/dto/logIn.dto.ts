@@ -3,8 +3,11 @@ import { IsString } from "class-validator";
 export class LogInDto {
 
     @IsString()
-    public email!: string;
+    public walletAddress!: string;
 
-    @IsString()
-    public password!: string
+    // @IsString()
+    // public email!: string;
+
+    // @IsString()
+    // public password!: string
 }

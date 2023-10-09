@@ -14,7 +14,18 @@ export class UserRepository {
         try {
             const user: UserInterface = await this.User.findById(id).populate('notes');
             return user;
+        } catch (error) {
+            throw error;
+        }
+    }
 
+    public async getUserByWalletAddress(walletAddress: string): Promise<UserInterface> {
+        const query = {
+            walletAddress: { $in: [walletAddress]}
+        };
+        try {
+            const user: UserInterface = await this.User.find(query).populate('notes');
+            return user
         } catch (error) {
             throw error;
         }
@@ -41,14 +52,14 @@ export class UserRepository {
     }
 
     public async updateUser(id: String | Number, field: any): Promise<UserInterface | null> {
-        const { email, walletAddress } = field
+        // const { email, walletAddress } = field
 
-        if (email) {
-            if (await this.User.findOne({ email })) throw new UserException().alreadyExist()
-        }
-        if (walletAddress) {
-            if (await this.User.findOne({ walletAddress })) throw new UserException().walletAddressUsed()
-        }
+        // if (email) {
+        //     if (await this.User.findOne({ email })) throw new UserException().alreadyExist()
+        // }
+        // if (walletAddress) {
+        //     if (await this.User.findOne({ walletAddress })) throw new UserException().walletAddressUsed()
+        // }
 
         try {
             const updateUser: UserInterface | null = await this.User.findByIdAndUpdate(

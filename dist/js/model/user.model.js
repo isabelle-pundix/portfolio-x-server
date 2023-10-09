@@ -17,22 +17,22 @@ const UserSchema = new mongoose_1.Schema({
     seq: {
         type: Number
     },
-    name: {
-        type: String,
-        // required: true
-    },
-    email: {
-        type: String,
-        // required: true
-    },
-    walletAddress: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        // required: true
-    },
+    // name: {
+    //     type: String,
+    //     // required: true
+    // },
+    // email: {
+    //     type: String,
+    //     // required: true
+    // },
+    walletAddress: [{
+            type: String,
+            required: true
+        }],
+    // password: {
+    //     type: String,
+    //     // required: true
+    // },
     status: {
         type: Boolean,
         required: true

@@ -12,15 +12,27 @@ export class UserController {
         this.userService = new UserService();
     }
 
-    public getUser = async (req: Request, res: Response): Promise<void> => {
+    public getUserById = async (req: Request, res: Response): Promise<void> => {
         try {
             const id = req.user
             const user: UserInterface = await this.userService.getUserById(id as string);
             logger.info(`App loaded with user: ${user.walletAddress}`);
             res.status(200).json({ user });
         } catch (error) {
-            logger.error(`Get User error`);
+            logger.error(`Get User by id error`);
             throw error;
+        }
+    }
+
+    public getUserByWalletAddress = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const walletAddress = req.user
+            const user: UserInterface = await this.userService.getUserByWalletAddress(walletAddress as string);
+            logger.info(`App loaded with user: ${user.walletAddress}`);
+            res.status(200).json({ user });
+        } catch (error) {
+            logger.error('Get User by wallet address error');
+            throw error
         }
     }
 

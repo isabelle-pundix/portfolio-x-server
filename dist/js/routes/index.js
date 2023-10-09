@@ -6,7 +6,6 @@ const note_controller_1 = require("../controller/note.controller");
 const user_controller_1 = require("../controller/user.controller");
 const cmcData_controller_1 = require("../controller/cmcData.controller");
 const fxcored_controller_1 = require("../controller/fxcored.controller");
-const logIn_dto_1 = require("../dto/logIn.dto");
 const note_dto_1 = require("../dto/note.dto");
 const user_dto_1 = require("../dto/user.dto");
 const auth_middleware_1 = require("../middleware/auth.middleware");
@@ -18,16 +17,17 @@ const cmcDataController = new cmcData_controller_1.CmcDataController();
 const fxcoredController = new fxcored_controller_1.FxcoredController();
 const router = (0, express_1.Router)();
 //Test CRUD only
-router.get("/getusers", auth_middleware_1.authMiddleware, userController.getUsers);
-router.post("/adduser", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(user_dto_1.UserDto), userController.addUser);
+router.get("/getusers", auth_middleware_1.authMiddleware, userController.getUsers); //OK (authmiddleware)
+router.post("/adduser", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(user_dto_1.UserDto), userController.addUser); //OK (authmiddleware)
 router.put("/updateuser/:id", auth_middleware_1.authMiddleware, userController.updateUser);
 router.delete("/deleteuser/:id", auth_middleware_1.authMiddleware, userController.deleteUser);
 //User
-router.get("/user", auth_middleware_1.authMiddleware, userController.getUser);
-router.put("/user/:id", auth_middleware_1.authMiddleware, userController.updateUser);
+router.get("/user", auth_middleware_1.authMiddleware, userController.getUserById);
+router.get("userByWalletAddress", auth_middleware_1.authMiddleware, userController.getUserByWalletAddress);
+router.put("/user/:id", auth_middleware_1.authMiddleware, userController.updateUser); //OK (authmiddleware)
 //Auth
-router.post("/register", (0, validation_middleware_1.validationMiddleware)(user_dto_1.UserDto), authController.registerNewUser);
-router.post("/login", (0, validation_middleware_1.validationMiddleware)(logIn_dto_1.LogInDto), authController.login);
+// router.post("/register", validationMiddleware(UserDto), authController.registerNewUser);
+// router.post("/login", validationMiddleware(LogInDto), authController.login);
 router.post("/refreshToken", authController.refreshToken);
 router.post("/logout", authController.logout);
 router.post("/walletlogin", authController.walletLogin);

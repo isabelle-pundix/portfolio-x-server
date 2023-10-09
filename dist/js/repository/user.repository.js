@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRepository = void 0;
 const user_model_1 = __importDefault(require("../model/user.model"));
-const userException_1 = require("../exceptions/userException");
 class UserRepository {
     constructor() {
         this.User = user_model_1.default;
@@ -23,6 +22,20 @@ class UserRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = yield this.User.findById(id).populate('notes');
+                return user;
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
+    getUserByWalletAddress(walletAddress) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = {
+                walletAddress: { $in: [walletAddress] }
+            };
+            try {
+                const user = yield this.User.find(query).populate('notes');
                 return user;
             }
             catch (error) {
@@ -54,15 +67,13 @@ class UserRepository {
     }
     updateUser(id, field) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { email, walletAddress } = field;
-            if (email) {
-                if (yield this.User.findOne({ email }))
-                    throw new userException_1.UserException().alreadyExist();
-            }
-            if (walletAddress) {
-                if (yield this.User.findOne({ walletAddress }))
-                    throw new userException_1.UserException().walletAddressUsed();
-            }
+            // const { email, walletAddress } = field
+            // if (email) {
+            //     if (await this.User.findOne({ email })) throw new UserException().alreadyExist()
+            // }
+            // if (walletAddress) {
+            //     if (await this.User.findOne({ walletAddress })) throw new UserException().walletAddressUsed()
+            // }
             try {
                 const updateUser = yield this.User.findByIdAndUpdate({ _id: id }, field, { new: true });
                 return updateUser;

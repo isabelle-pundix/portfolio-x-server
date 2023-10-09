@@ -14,14 +14,8 @@ __decorate([
     (0, class_validator_1.IsString)()
 ], UserDto.prototype, "name", void 0);
 __decorate([
-    (0, class_validator_1.IsString)()
-], UserDto.prototype, "email", void 0);
-__decorate([
-    (0, class_validator_1.IsString)()
+    (0, class_validator_1.IsArray)()
 ], UserDto.prototype, "walletAddress", void 0);
-__decorate([
-    (0, class_validator_1.IsString)()
-], UserDto.prototype, "password", void 0);
 __decorate([
     (0, class_validator_1.IsBoolean)()
 ], UserDto.prototype, "status", void 0);

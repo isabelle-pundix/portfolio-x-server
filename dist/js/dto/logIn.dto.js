@@ -12,8 +12,5 @@ class LogInDto {
 }
 __decorate([
     (0, class_validator_1.IsString)()
-], LogInDto.prototype, "email", void 0);
-__decorate([
-    (0, class_validator_1.IsString)()
-], LogInDto.prototype, "password", void 0);
+], LogInDto.prototype, "walletAddress", void 0);
 exports.LogInDto = LogInDto;

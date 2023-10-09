@@ -30,57 +30,57 @@ export class AuthController {
         this.User = User;
     }
 
-    public registerNewUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-        try {
-            const userData: UserDto = req.body;
-            const { accessToken, newUser, refreshToken } = await this.authService.registerNewUser(userData);
-            newUser.refreshToken.push({ refreshToken })
-            await newUser.save()
-            logger.info(`New User Registration: ${newUser.email}`);
-            res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-            res.status(200).json(
-                {
-                    message: "New user registered",
-                    user: newUser,
-                    accessToken
-                }
-            );
-        } catch (error) {
-            logger.error(`User registration error`);
-            next(error);
-        }
-    }
+    // public registerNewUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    //     try {
+    //         const userData: UserDto = req.body;
+    //         const { accessToken, newUser, refreshToken } = await this.authService.registerNewUser(userData);
+    //         newUser.refreshToken.push({ refreshToken })
+    //         await newUser.save()
+    //         logger.info(`New User Registration: ${newUser.walletAddress}`);
+    //         res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+    //         res.status(200).json(
+    //             {
+    //                 message: "New user registered",
+    //                 user: newUser,
+    //                 accessToken
+    //             }
+    //         );
+    //     } catch (error) {
+    //         logger.error(`User registration error`);
+    //         next(error);
+    //     }
+    // }
 
-    public login = async (req: Request, res: Response, next: NextFunction) => {
-        const logInData: LogInDto = req.body;
-        const user: UserInterface = await this.User.findOne({ email: logInData.email }).populate('notes');
-        if (user) {
-            // console.log(user);
-            const passwordMatch: boolean = await this.authService.matchPassword(logInData, user);
-            // console.log(passwordMatch);
-            if (passwordMatch) {
-                const accessToken: string = this.authService.createAccessToken(user._id);
-                const refreshToken: string = this.authService.createRefreshToken(user._id)
-                user.refreshToken.push({ refreshToken })
-                await user.save()
-                logger.info(`Login: ${user.walletAddress}`);
-                res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-                res.status(200).json(
-                    {
-                        message: "Login success",
-                        user: user,
-                        accessToken
-                    }
-                );
-            } else {
-                logger.info(`Password mismatch: ${user.walletAddress}`);
-                next(new CredentialsException());
-            }
-        } else {
-            logger.error(`Login error`);
-            next(new CredentialsException());
-        }
-    }
+    // public login = async (req: Request, res: Response, next: NextFunction) => {
+    //     const logInData: LogInDto = req.body;
+    //     const user: UserInterface = await this.User.find({ wallet: logInData.walletAddress }).populate('notes');
+    //     if (user) {
+    //         // console.log(user);
+    //         const passwordMatch: boolean = await this.authService.matchPassword(logInData, user);
+    //         // console.log(passwordMatch);
+    //         if (passwordMatch) {
+    //             const accessToken: string = this.authService.createAccessToken(user._id);
+    //             const refreshToken: string = this.authService.createRefreshToken(user._id)
+    //             user.refreshToken.push({ refreshToken })
+    //             await user.save()
+    //             logger.info(`Login: ${user.walletAddress}`);
+    //             res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+    //             res.status(200).json(
+    //                 {
+    //                     message: "Login success",
+    //                     user: user,
+    //                     accessToken
+    //                 }
+    //             );
+    //         } else {
+    //             logger.info(`Password mismatch: ${user.walletAddress}`);
+    //             next(new CredentialsException());
+    //         }
+    //     } else {
+    //         logger.error(`Login error`);
+    //         next(new CredentialsException());
+    //     }
+    // }
 
     public refreshToken = async (req: Request, res: Response, next: NextFunction) => {
         const { signedCookies = {} } = req;

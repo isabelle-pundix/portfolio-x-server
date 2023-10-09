@@ -24,6 +24,11 @@ class UserService {
             return yield this.userRepository.getUser(id);
         });
     }
+    getUserByWalletAddress(walletAddress) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userRepository.getUserByWalletAddress(walletAddress);
+        });
+    }
     getUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.userRepository.getUsers();
@@ -33,10 +38,10 @@ class UserService {
         return __awaiter(this, void 0, void 0, function* () {
             //const body = req.body as Pick<UserInterface, "name" | "email" | "status">;
             const user = new user_model_1.default({
-                name: userData.name,
-                email: userData.email,
+                // name: userData.name,
+                // email: userData.email,
                 walletAddress: userData.walletAddress,
-                password: userData.password,
+                // password: userData.password,
                 status: userData.status
             });
             const newUser = yield this.userRepository.addUser(user);

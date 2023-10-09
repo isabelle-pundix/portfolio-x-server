@@ -19,18 +19,19 @@ const fxcoredController = new FxcoredController();
 const router: Router = Router();
 
 //Test CRUD only
-router.get("/getusers", authMiddleware, userController.getUsers);
-router.post("/adduser", authMiddleware, validationMiddleware(UserDto), userController.addUser);
-router.put("/updateuser/:id", authMiddleware, userController.updateUser);
+router.get("/getusers", authMiddleware, userController.getUsers); //OK (authmiddleware)
+router.post("/adduser", authMiddleware, validationMiddleware(UserDto), userController.addUser); //OK (authmiddleware)
+router.put("/updateuser/:id", authMiddleware, userController.updateUser); 
 router.delete("/deleteuser/:id", authMiddleware, userController.deleteUser);
 
 //User
-router.get("/user", authMiddleware, userController.getUser)
-router.put("/user/:id", authMiddleware, userController.updateUser);
+router.get("/user", authMiddleware, userController.getUserById)
+router.get("userByWalletAddress", authMiddleware, userController.getUserByWalletAddress);
+router.put("/user/:id", authMiddleware, userController.updateUser); //OK (authmiddleware)
 
 //Auth
-router.post("/register", validationMiddleware(UserDto), authController.registerNewUser);
-router.post("/login", validationMiddleware(LogInDto), authController.login);
+// router.post("/register", validationMiddleware(UserDto), authController.registerNewUser);
+// router.post("/login", validationMiddleware(LogInDto), authController.login);
 router.post("/refreshToken", authController.refreshToken);
 router.post("/logout", authController.logout);
 router.post("/walletlogin", authController.walletLogin)

@@ -20,37 +20,37 @@ export class AuthService {
         this.User = User;
     }
 
-    public async matchPassword(logInData: LogInDto, user: UserInterface): Promise<boolean> {
-        const passwordMatch: boolean = await bcrypt.compare(
-            logInData.password,
-            user.password
-        );
-        return passwordMatch;
-    }
+    // public async matchPassword(logInData: LogInDto, user: UserInterface): Promise<boolean> {
+    //     const passwordMatch: boolean = await bcrypt.compare(
+    //         logInData.password,
+    //         user.password
+    //     );
+    //     return passwordMatch;
+    // }
 
-    public async registerNewUser(userData: UserDto): Promise<{ accessToken: string, newUser: UserInterface, refreshToken: string }> {
-        if (await this.User.findOne({ email: userData.email })) {
-            throw new UserException().alreadyExist();
-        }
-        if (await this.User.findOne({ walletAddress: userData.walletAddress })) {
-            throw new UserException().walletAddressUsed();
-        }
+    // public async registerNewUser(userData: UserDto): Promise<{ accessToken: string, newUser: UserInterface, refreshToken: string }> {
+    //     // if (await this.User.findOne({ email: userData.email })) {
+    //     //     throw new UserException().alreadyExist();
+    //     // }
+    //     if (await this.User.getUserByWalletAddress({ walletAddress: userData.walletAddress })) {
+    //         throw new UserException().walletAddressUsed();
+    //     }
 
-        const bcryptHashedPassword: string = await bcrypt.hash(userData.password, 10);
-        const user: UserInterface = new User({
-            name: userData.name,
-            email: userData.email,
-            walletAddress: userData.walletAddress,
-            password: bcryptHashedPassword,
-            status: userData.status
-        });
-        const newUser: UserInterface = await this.userRepository.addUser(user);
-        const accessToken = this.createAccessToken(newUser._id)
-        const refreshToken = this.createRefreshToken(newUser._id)
-        // const cookie: any = this.createCookie(tokenData);
-        return { accessToken, newUser, refreshToken };
-        //(Oauth2.0??)
-    }
+    //     // const bcryptHashedPassword: string = await bcrypt.hash(userData.password, 10);
+    //     const user: UserInterface = new User({
+    //         name: userData.name,
+    //         // email: userData.email,
+    //         walletAddress: userData.walletAddress,
+    //         // password: bcryptHashedPassword,
+    //         status: userData.status
+    //     });
+    //     const newUser: UserInterface = await this.userRepository.addUser(user);
+    //     const accessToken = this.createAccessToken(newUser._id)
+    //     const refreshToken = this.createRefreshToken(newUser._id)
+    //     // const cookie: any = this.createCookie(tokenData);
+    //     return { accessToken, newUser, refreshToken };
+    //     //(Oauth2.0??)
+    // }
 
     public async registerNewUserWithWallet(walletAddress: string): Promise<{ accessToken: string, newUser: UserInterface, refreshToken: string }> {
         const user: UserInterface = new User({
