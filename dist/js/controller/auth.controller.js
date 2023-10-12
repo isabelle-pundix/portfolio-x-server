@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const auth_service_1 = require("../service/auth.service");
 const user_model_1 = __importDefault(require("../model/user.model"));
+const walletAddress_model_1 = __importDefault(require("../model/walletAddress.model"));
 const credentialsException_1 = require("./../exceptions/credentialsException");
 const jwt = __importStar(require("jsonwebtoken"));
 const fs = __importStar(require("fs"));
@@ -159,7 +160,7 @@ class AuthController {
                         else {
                             next(new credentialsException_1.CredentialsException());
                         }
-                        logger_1.default.info(`Logout: ${user.walletAddress}`);
+                        logger_1.default.info(`Logout: ${user.walletAddresses}`);
                         res.clearCookie("refreshToken", COOKIE_OPTIONS);
                         res.status(200).json({ success: true });
                     }
@@ -178,26 +179,36 @@ class AuthController {
         });
         this.walletLogin = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             const { walletAddress } = req.body;
-            const user = yield this.User.findOne({ walletAddress }).populate('notes');
-            if (user) {
-                const accessToken = this.authService.createAccessToken(user._id);
-                const refreshToken = this.authService.createRefreshToken(user._id);
-                user.refreshToken.push({ refreshToken });
-                yield user.save();
-                logger_1.default.info(`Wallet Login: ${user.walletAddress}`);
-                res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-                res.status(200).json({
-                    message: "Login success",
-                    user: user,
-                    accessToken
-                });
+            const walletExist = yield this.WalletAddress.findOne({ walletAddress });
+            console.log("Wallet exist? ", walletExist);
+            if (walletExist != null) {
+                const walletAddressData = yield this.WalletAddress.findOne({ walletAddress }).populate('user'); // something is wrong with this
+                const user = walletAddressData.user;
+                console.log("is this logging???? ", user);
+                if (user != null) {
+                    const accessToken = this.authService.createAccessToken(user._id);
+                    const refreshToken = this.authService.createRefreshToken(user._id);
+                    console.log("Refresh token: ", refreshToken);
+                    const refreshTokens = user.refreshToken;
+                    console.log("User refresh token: ", refreshTokens);
+                    refreshTokens.push({ refreshToken });
+                    yield user.save();
+                    logger_1.default.info(`Wallet Login: ${user.walletAddresses}`);
+                    res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+                    res.status(200).json({
+                        message: "Login success",
+                        user: user,
+                        accessToken
+                    });
+                }
             }
             else {
                 try {
                     const { accessToken, newUser, refreshToken } = yield this.authService.registerNewUserWithWallet(walletAddress);
                     newUser.refreshToken.push({ refreshToken });
+                    console.log("Successful up to here");
                     yield newUser.save();
-                    logger_1.default.info(`Wallet Registration - New User: ${newUser.walletAddress}`);
+                    logger_1.default.info(`Wallet Registration - New User: ${newUser.walletAddresses}`);
                     res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
                     res.status(200).json({
                         message: "New user registered",
@@ -210,6 +221,13 @@ class AuthController {
                     next(error);
                 }
             }
+            // const user: UserInterface = await this.WalletAddress.findOne({walletAddress}).populate('user'); 
+            // console.log("What is this user? ", user);
+            // console.log("USERID???: ", userId);
+            // const user: UserInterface = await this.User.findOne({userId}).populate('notes');
+            // console.log("User: ", user);
+            // const walletAddress: UserInterface = await this.WalletAddress.findOne({ walletAddress }).id;
+            // user.populate('notes');
         });
         this.test = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             logger_1.default.info("test method");
@@ -220,6 +238,7 @@ class AuthController {
         });
         this.authService = new auth_service_1.AuthService();
         this.User = user_model_1.default;
+        this.WalletAddress = walletAddress_model_1.default;
     }
 }
 exports.AuthController = AuthController;

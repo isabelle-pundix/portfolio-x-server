@@ -10,22 +10,10 @@ export class UserRepository {
         this.User = User;
     }
 
-    public async getUser(id: string): Promise<UserInterface> {
+    public async getUser(id: String): Promise<UserInterface> {
         try {
-            const user: UserInterface = await this.User.findById(id).populate('notes');
+            const user: UserInterface = await this.User.findById(id).populate(['notes', 'walletAddresses']);
             return user;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    public async getUserByWalletAddress(walletAddress: string): Promise<UserInterface> {
-        const query = {
-            walletAddress: { $in: [walletAddress]}
-        };
-        try {
-            const user: UserInterface = await this.User.find(query).populate('notes');
-            return user
         } catch (error) {
             throw error;
         }
@@ -33,7 +21,8 @@ export class UserRepository {
 
     public async getUsers(): Promise<Array<UserInterface>> {
         try {
-            const allUsers: Array<UserInterface> = await this.User.find({}, null, { populate: "notes" });
+            const allUsers: UserInterface[] = await this.User.find({}).populate(['notes', 'walletAddresses']);
+            // const allUsers: Array<UserInterface> = await this.User.find({}, null, { populate: "notes" });
             return allUsers;
 
         } catch (error) {
@@ -48,7 +37,6 @@ export class UserRepository {
         } catch (error) {
             throw error;
         }
-
     }
 
     public async updateUser(id: String | Number, field: any): Promise<UserInterface | null> {

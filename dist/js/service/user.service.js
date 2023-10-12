@@ -24,11 +24,9 @@ class UserService {
             return yield this.userRepository.getUser(id);
         });
     }
-    getUserByWalletAddress(walletAddress) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.userRepository.getUserByWalletAddress(walletAddress);
-        });
-    }
+    // public async getUserByWalletAddress(walletAddress: string) {
+    //     return await this.userRepository.getUserByWalletAddress(walletAddress);
+    // }
     getUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.userRepository.getUsers();
@@ -40,7 +38,7 @@ class UserService {
             const user = new user_model_1.default({
                 // name: userData.name,
                 // email: userData.email,
-                walletAddress: userData.walletAddress,
+                // walletAddress: userData.walletAddress,
                 // password: userData.password,
                 status: userData.status
             });

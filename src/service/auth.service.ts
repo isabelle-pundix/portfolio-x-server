@@ -1,4 +1,5 @@
 import { UserRepository } from "../repository/user.repository";
+import { WalletAddressRepository } from "../repository/walletAddress.repository";
 import { RefreshToken, UserInterface } from "../types/user";
 import User from "../model/user.model";
 import { UserDto } from "../dto/user.dto";
@@ -8,15 +9,19 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as fs from "fs";
 import { UserException } from "../exceptions/userException";
+import { WalletAddressInterface } from "../types/walletAddress";
+import WalletAddress from "../model/walletAddress.model";
 
 export class AuthService {
 
     private userRepository: UserRepository;
+    private walletAddressRepository: WalletAddressRepository;
     private User: any;
     private privKey: string | Buffer = fs.readFileSync("./server.private.key", "utf8");
 
     constructor() {
         this.userRepository = new UserRepository();
+        this.walletAddressRepository = new WalletAddressRepository();
         this.User = User;
     }
 
@@ -52,14 +57,21 @@ export class AuthService {
     //     //(Oauth2.0??)
     // }
 
-    public async registerNewUserWithWallet(walletAddress: string): Promise<{ accessToken: string, newUser: UserInterface, refreshToken: string }> {
+    public async registerNewUserWithWallet(newAddress: string): Promise<{ accessToken: string, newUser: UserInterface, refreshToken: string }> {
         const user: UserInterface = new User({
-            walletAddress: walletAddress,
             status: false
         });
         const newUser: UserInterface = await this.userRepository.addUser(user);
-        const accessToken = this.createAccessToken(newUser._id)
-        const refreshToken = this.createRefreshToken(newUser._id)
+        const userId: String = newUser.id;
+        const accessToken = this.createAccessToken(newUser._id);
+        const refreshToken = this.createRefreshToken(newUser._id);
+        
+        const walletAddress: WalletAddressInterface = new WalletAddress({
+            walletAddress: newAddress,
+            name: "Wallet 1",
+            user: newUser 
+        });
+        const newWalletAddress: WalletAddressInterface = await this.walletAddressRepository.addWalletAddress(userId, walletAddress);
         // const cookie: any = this.createCookie(tokenData);
         return { accessToken, newUser, refreshToken };
         //(Oauth2.0??)

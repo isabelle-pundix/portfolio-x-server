@@ -3,6 +3,7 @@ import { LogInDto } from "../dto/logIn.dto";
 import { UserDto } from "../dto/user.dto";
 import { AuthService } from "../service/auth.service";
 import User from "../model/user.model";
+import WalletAddress from "../model/walletAddress.model";
 import Token from "../types/token";
 import { UserInterface } from "../types/user";
 import { CredentialsException } from "./../exceptions/credentialsException";
@@ -24,10 +25,12 @@ export class AuthController {
 
     private authService: AuthService;
     private User: any;
+    private WalletAddress: any;
 
     constructor() {
         this.authService = new AuthService();
         this.User = User;
+        this.WalletAddress = WalletAddress;
     }
 
     // public registerNewUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -142,7 +145,7 @@ export class AuthController {
                     } else {
                         next(new CredentialsException())
                     }
-                    logger.info(`Logout: ${user.walletAddress}`);
+                    logger.info(`Logout: ${user.walletAddresses}`);
                     res.clearCookie("refreshToken", COOKIE_OPTIONS)
                     res.status(200).json({ success: true })
 
@@ -160,28 +163,40 @@ export class AuthController {
     }
 
     public walletLogin = async (req: Request, res: Response, next: NextFunction) => {
-        const { walletAddress } = req.body
-        const user: UserInterface = await this.User.findOne({ walletAddress }).populate('notes');
-        if (user) {
-            const accessToken: string = this.authService.createAccessToken(user._id);
-            const refreshToken: string = this.authService.createRefreshToken(user._id)
-            user.refreshToken.push({ refreshToken })
-            await user.save()
-            logger.info(`Wallet Login: ${user.walletAddress}`);
-            res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-            res.status(200).json(
-                {
-                    message: "Login success",
-                    user: user,
-                    accessToken
-                }
-            );
+        const { walletAddress } = req.body;
+
+        const walletExist = await this.WalletAddress.findOne({walletAddress});
+        console.log("Wallet exist? ", walletExist);
+        if (walletExist != null) {
+            const walletAddressData: any = await this.WalletAddress.findOne({walletAddress}).populate('user'); // something is wrong with this
+            const user = walletAddressData.user;
+            console.log("is this logging???? ", user);
+
+            if (user != null) {
+                const accessToken: string = this.authService.createAccessToken(user._id);
+                const refreshToken: string = this.authService.createRefreshToken(user._id);
+                console.log("Refresh token: ", refreshToken);
+                const refreshTokens = user.refreshToken; 
+                console.log("User refresh token: ", refreshTokens);
+                refreshTokens.push({ refreshToken });
+                await user.save();
+                logger.info(`Wallet Login: ${user.walletAddresses}`);
+                res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+                res.status(200).json(
+                    {
+                        message: "Login success",
+                        user: user,
+                        accessToken
+                    }
+                );
+            } 
         } else {
             try {
                 const { accessToken, newUser, refreshToken } = await this.authService.registerNewUserWithWallet(walletAddress);
-                newUser.refreshToken.push({ refreshToken })
-                await newUser.save()
-                logger.info(`Wallet Registration - New User: ${newUser.walletAddress}`);
+                newUser.refreshToken.push({ refreshToken }); 
+                console.log("Successful up to here");
+                await newUser.save();
+                logger.info(`Wallet Registration - New User: ${newUser.walletAddresses}`);
                 res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
                 res.status(200).json(
                     {
@@ -195,6 +210,15 @@ export class AuthController {
                 next(error);
             }
         }
+        // const user: UserInterface = await this.WalletAddress.findOne({walletAddress}).populate('user'); 
+        // console.log("What is this user? ", user);
+        // console.log("USERID???: ", userId);
+        // const user: UserInterface = await this.User.findOne({userId}).populate('notes');
+        // console.log("User: ", user);
+
+        // const walletAddress: UserInterface = await this.WalletAddress.findOne({ walletAddress }).id;
+        // user.populate('notes');
+        
     }
     
     public test = async (req: Request, res: Response, next: NextFunction) => {

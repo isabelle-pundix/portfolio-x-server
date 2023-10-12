@@ -21,21 +21,7 @@ class UserRepository {
     getUser(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield this.User.findById(id).populate('notes');
-                return user;
-            }
-            catch (error) {
-                throw error;
-            }
-        });
-    }
-    getUserByWalletAddress(walletAddress) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const query = {
-                walletAddress: { $in: [walletAddress] }
-            };
-            try {
-                const user = yield this.User.find(query).populate('notes');
+                const user = yield this.User.findById(id).populate(['notes', 'walletAddresses']);
                 return user;
             }
             catch (error) {
@@ -46,7 +32,8 @@ class UserRepository {
     getUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const allUsers = yield this.User.find({}, null, { populate: "notes" });
+                const allUsers = yield this.User.find({}).populate(['notes', 'walletAddresses']);
+                // const allUsers: Array<UserInterface> = await this.User.find({}, null, { populate: "notes" });
                 return allUsers;
             }
             catch (error) {

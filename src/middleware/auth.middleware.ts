@@ -9,7 +9,7 @@ import logger from "../logs/logger";
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
     const authHeader = String(req.headers['authorization'] || '');
-    logger.log(`AuthHeader: `, authHeader);
+    console.log("Auth header: ", authHeader);
     if (authHeader.startsWith('Bearer ')) {
         try {
             const accessToken = authHeader.substring(7, authHeader.length);

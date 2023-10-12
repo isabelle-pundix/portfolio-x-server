@@ -28,8 +28,9 @@ const UserSchema: Schema = new Schema(
         //     type: String,
         //     // required: true
         // },
-        walletAddress: [{
-            type: String,
+        walletAddresses: [{
+            type: Schema.Types.ObjectId,
+            ref: "WalletAddress",
             required: true
         }],
         // password: {

@@ -21,7 +21,7 @@ class UserController {
             try {
                 const id = req.user;
                 const user = yield this.userService.getUserById(id);
-                logger_1.default.info(`App loaded with user: ${user.walletAddress}`);
+                logger_1.default.info(`App loaded with user: ${user.walletAddresses}`);
                 res.status(200).json({ user });
             }
             catch (error) {
@@ -29,18 +29,17 @@ class UserController {
                 throw error;
             }
         });
-        this.getUserByWalletAddress = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const walletAddress = req.user;
-                const user = yield this.userService.getUserByWalletAddress(walletAddress);
-                logger_1.default.info(`App loaded with user: ${user.walletAddress}`);
-                res.status(200).json({ user });
-            }
-            catch (error) {
-                logger_1.default.error('Get User by wallet address error');
-                throw error;
-            }
-        });
+        // public getUserByWalletAddress = async (req: Request, res: Response): Promise<void> => {
+        //     try {
+        //         const walletAddress = req.user
+        //         const user: UserInterface = await this.userService.getUserByWalletAddress(walletAddress as string);
+        //         logger.info(`App loaded with user: ${user.walletAddresses}`);
+        //         res.status(200).json({ user });
+        //     } catch (error) {
+        //         logger.error('Get User by wallet address error');
+        //         throw error
+        //     }
+        // }
         this.getUsers = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const users = yield this.userService.getUsers();
@@ -65,35 +64,6 @@ class UserController {
             }
             catch (error) {
                 logger_1.default.error(`Add user error`);
-                throw error;
-            }
-        });
-        this.updateUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const updatedUser = yield this.userService.updateUser(req);
-                //logger.info(`User updated: ${updatedUser?.walletAddress} - ${JSON.stringify(Object.keys(req.body.fieldToEdit)[0])}`);
-                res.status(200).json({
-                    message: "User updated",
-                    user: updatedUser
-                });
-            }
-            catch (error) {
-                logger_1.default.error(`User update error`);
-                next(error);
-            }
-        });
-        this.deleteUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const deleteUser = yield this.userService.deleteUser(req);
-                const allUsers = yield this.userService.getUsers();
-                res.status(200).json({
-                    message: "User deleted",
-                    user: deleteUser,
-                    users: allUsers
-                });
-            }
-            catch (error) {
-                logger_1.default.error("Delete user error");
                 throw error;
             }
         });

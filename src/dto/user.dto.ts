@@ -4,14 +4,14 @@ export class UserDto {
 
     //implicit constructor
     
-    @IsString()
-    public name!: string;
+    // @IsString()
+    // public name!: string;
 
     // @IsString()
     // public email!: string
 
-    @IsArray()
-    public walletAddress!: string
+    // @IsArray()
+    // public walletAddress!: string
 
     // @IsString()
     // public password!: string

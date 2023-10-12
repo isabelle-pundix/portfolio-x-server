@@ -9,25 +9,30 @@ import { NoteDto } from "../dto/note.dto";
 import { UserDto } from "../dto/user.dto";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { validationMiddleware } from "../middleware/validation.middleware";
+import { WalletAddressController } from "../controller/walletAddress.controller";
+import { WalletAddressAddDto } from "../dto/walletAddressAdd.dto";
+import { WalletAddressUpdateDto } from "../dto/walletAddressUpdate.dto";
 
 const userController = new UserController();
 const authController = new AuthController();
 const noteController = new NoteController();
 const cmcDataController = new CmcDataController();
 const fxcoredController = new FxcoredController();
+const walletAddressController = new WalletAddressController();
 
 const router: Router = Router();
 
 //Test CRUD only
-router.get("/getusers", authMiddleware, userController.getUsers); //OK (authmiddleware)
-router.post("/adduser", authMiddleware, validationMiddleware(UserDto), userController.addUser); //OK (authmiddleware)
-router.put("/updateuser/:id", authMiddleware, userController.updateUser); 
-router.delete("/deleteuser/:id", authMiddleware, userController.deleteUser);
+router.get("/getusers", authMiddleware, userController.getUsers); 
+// router.post("/adduser", authMiddleware, validationMiddleware(UserDto), userController.addUser); 
+// router.put("/updateuser/:id", authMiddleware, userController.updateUser); 
+// router.delete("/deleteuser/:id", authMiddleware, userController.deleteUser);
 
 //User
-router.get("/user", authMiddleware, userController.getUserById)
-router.get("userByWalletAddress", authMiddleware, userController.getUserByWalletAddress);
-router.put("/user/:id", authMiddleware, userController.updateUser); //OK (authmiddleware)
+router.get("/user", authMiddleware, userController.getUserById) // Read user 
+// router.post("/adduser", authMiddleware, validationMiddleware(UserDto), userController.addUser); // Add user
+// router.get("userByWalletAddress", authMiddleware, userController.getUserByWalletAddress);
+// router.put("/user/:id", authMiddleware, userController.updateUser); 
 
 //Auth
 // router.post("/register", validationMiddleware(UserDto), authController.registerNewUser);
@@ -41,6 +46,12 @@ router.get("/note", authMiddleware, noteController.getUserNotes);
 router.post("/note", authMiddleware, validationMiddleware(NoteDto), noteController.addUserNote);
 router.post("/note/:noteId", authMiddleware, validationMiddleware(NoteDto), noteController.updateUserNote);
 router.delete("/note/:noteId", authMiddleware, noteController.deleteUserNote);
+
+// Wallet Addresses
+router.get("/walletAddress",authMiddleware, walletAddressController.getUserWalletAddresseses); //get all wallet addresses for user 
+router.post("/walletAddress", authMiddleware, validationMiddleware(WalletAddressAddDto), walletAddressController.addUserWalletAddress); // add wallet address 
+router.post("walletAddress/:walletAddressId", authMiddleware, validationMiddleware(WalletAddressUpdateDto), walletAddressController.updateUserWalletAddress); // update wallet address
+router.delete("/walletAddress/:walletAddressId", authMiddleware, walletAddressController.deleteUserWalletAddress); // delete wallet address 
 
 //CMC
 router.get("/getCmcMeta", authMiddleware, cmcDataController.getMetaData);

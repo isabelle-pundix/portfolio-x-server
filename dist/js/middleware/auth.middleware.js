@@ -31,19 +31,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authMiddleware = void 0;
 const fs = __importStar(require("fs"));
 const jwt = __importStar(require("jsonwebtoken"));
 const authTokenException_1 = require("../exceptions/authTokenException");
-const logger_1 = __importDefault(require("../logs/logger"));
 function authMiddleware(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         const authHeader = String(req.headers['authorization'] || '');
-        logger_1.default.log(`AuthHeader: `, authHeader);
+        console.log("Auth header: ", authHeader);
         if (authHeader.startsWith('Bearer ')) {
             try {
                 const accessToken = authHeader.substring(7, authHeader.length);

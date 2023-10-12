@@ -25,8 +25,9 @@ const UserSchema = new mongoose_1.Schema({
     //     type: String,
     //     // required: true
     // },
-    walletAddress: [{
-            type: String,
+    walletAddresses: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: "WalletAddress",
             required: true
         }],
     // password: {

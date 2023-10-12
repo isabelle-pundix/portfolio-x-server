@@ -16,9 +16,9 @@ export class UserService {
         return await this.userRepository.getUser(id);
     }
 
-    public async getUserByWalletAddress(walletAddress: string) {
-        return await this.userRepository.getUserByWalletAddress(walletAddress);
-    }
+    // public async getUserByWalletAddress(walletAddress: string) {
+    //     return await this.userRepository.getUserByWalletAddress(walletAddress);
+    // }
 
     public async getUsers() {
         return await this.userRepository.getUsers();
@@ -29,7 +29,7 @@ export class UserService {
         const user: UserInterface = new User({
             // name: userData.name,
             // email: userData.email,
-            walletAddress: userData.walletAddress,
+            // walletAddress: userData.walletAddress,
             // password: userData.password,
             status: userData.status
         });
