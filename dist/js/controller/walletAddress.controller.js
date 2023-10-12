@@ -59,31 +59,6 @@ class WalletAddressController {
                 });
             }
         });
-        // try {
-        //   if (walletExist == null) {
-        //     const newWalletAddress: WalletAddressInterface =
-        //       await this.walletAddressService.addUserWalletAddress(
-        //         userId,
-        //         walletAddressData
-        //       );
-        //     logger.info(
-        //       `New wallet address added: ${newWalletAddress.user.walletAddresses}, ${newWalletAddress.name}: ${newWalletAddress.id}`
-        //     );
-        //     res.status(201).json({
-        //       message: "Wallet address added",
-        //       walletAddress: newWalletAddress,
-        //     });
-        //   } else {
-        //     logger.info(`Wallet address add failed as already exists`);
-        //     res.status(500).json({
-        //       message: "Wallet address add failed as already exists"
-        //     })
-        //   }
-        // } catch (error) {
-        //   logger.error(`Add wallet address error`);
-        //   throw error;
-        // }
-        // };
         this.updateUserWalletAddress = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const userId = req.user.toString();

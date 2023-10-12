@@ -163,7 +163,6 @@ export class AuthController {
 
     public walletLogin = async (req: Request, res: Response, next: NextFunction) => {
         const { walletAddress } = req.body;
-
         const walletExist = await this.WalletAddress.findOne({walletAddress});
         if (walletExist != null) {
             const walletAddressData: any = await this.WalletAddress.findOne({walletAddress}).populate('user');

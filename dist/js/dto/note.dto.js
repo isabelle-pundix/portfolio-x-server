@@ -10,7 +10,7 @@ exports.NoteDto = void 0;
 const class_validator_1 = require("class-validator");
 class NoteDto {
 }
+exports.NoteDto = NoteDto;
 __decorate([
     (0, class_validator_1.IsString)()
 ], NoteDto.prototype, "content", void 0);
-exports.NoteDto = NoteDto;

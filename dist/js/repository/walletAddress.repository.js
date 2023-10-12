@@ -60,7 +60,6 @@ class WalletAddressRepository {
             }
         });
     }
-    // check that this is properly persisting both sides based on db structure
     updateUserWalletAddress(userId, walletAddressId, walletAddressData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

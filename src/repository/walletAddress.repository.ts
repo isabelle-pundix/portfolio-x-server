@@ -58,7 +58,6 @@ export class WalletAddressRepository {
     }
   }
 
-  // check that this is properly persisting both sides based on db structure
   public async updateUserWalletAddress(
     userId: String,
     walletAddressId: String,
