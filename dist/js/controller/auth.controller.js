@@ -180,17 +180,13 @@ class AuthController {
         this.walletLogin = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             const { walletAddress } = req.body;
             const walletExist = yield this.WalletAddress.findOne({ walletAddress });
-            console.log("Wallet exist? ", walletExist);
             if (walletExist != null) {
-                const walletAddressData = yield this.WalletAddress.findOne({ walletAddress }).populate('user'); // something is wrong with this
+                const walletAddressData = yield this.WalletAddress.findOne({ walletAddress }).populate('user');
                 const user = walletAddressData.user;
-                console.log("is this logging???? ", user);
                 if (user != null) {
                     const accessToken = this.authService.createAccessToken(user._id);
                     const refreshToken = this.authService.createRefreshToken(user._id);
-                    console.log("Refresh token: ", refreshToken);
                     const refreshTokens = user.refreshToken;
-                    console.log("User refresh token: ", refreshTokens);
                     refreshTokens.push({ refreshToken });
                     yield user.save();
                     logger_1.default.info(`Wallet Login: ${user.walletAddresses}`);
@@ -206,7 +202,6 @@ class AuthController {
                 try {
                     const { accessToken, newUser, refreshToken } = yield this.authService.registerNewUserWithWallet(walletAddress);
                     newUser.refreshToken.push({ refreshToken });
-                    console.log("Successful up to here");
                     yield newUser.save();
                     logger_1.default.info(`Wallet Registration - New User: ${newUser.walletAddresses}`);
                     res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);

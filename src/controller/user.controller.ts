@@ -24,18 +24,6 @@ export class UserController {
         }
     }
 
-    // public getUserByWalletAddress = async (req: Request, res: Response): Promise<void> => {
-    //     try {
-    //         const walletAddress = req.user
-    //         const user: UserInterface = await this.userService.getUserByWalletAddress(walletAddress as string);
-    //         logger.info(`App loaded with user: ${user.walletAddresses}`);
-    //         res.status(200).json({ user });
-    //     } catch (error) {
-    //         logger.error('Get User by wallet address error');
-    //         throw error
-    //     }
-    // }
-
     public getUsers = async (req: Request, res: Response): Promise<void> => {
         try {
             const users: Array<UserInterface> = await this.userService.getUsers();

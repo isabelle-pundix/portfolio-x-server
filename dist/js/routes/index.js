@@ -41,10 +41,10 @@ router.post("/note", auth_middleware_1.authMiddleware, (0, validation_middleware
 router.post("/note/:noteId", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(note_dto_1.NoteDto), noteController.updateUserNote);
 router.delete("/note/:noteId", auth_middleware_1.authMiddleware, noteController.deleteUserNote);
 // Wallet Addresses
-router.get("/walletAddress", auth_middleware_1.authMiddleware, walletAddressController.getUserWalletAddresseses); //get all wallet addresses for user 
-router.post("/walletAddress", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(walletAddressAdd_dto_1.WalletAddressAddDto), walletAddressController.addUserWalletAddress); // add wallet address 
-router.post("/walletAddress/:walletAddressId", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(walletAddressUpdate_dto_1.WalletAddressUpdateDto), walletAddressController.updateUserWalletAddress); // update wallet address
-router.delete("/walletAddress/:walletAddressId", auth_middleware_1.authMiddleware, walletAddressController.deleteUserWalletAddress); // delete wallet address 
+router.get("/walletAddress", auth_middleware_1.authMiddleware, walletAddressController.getUserWalletAddresseses);
+router.post("/walletAddress", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(walletAddressAdd_dto_1.WalletAddressAddDto), walletAddressController.addUserWalletAddress);
+router.post("/walletAddress/:walletAddressId", auth_middleware_1.authMiddleware, (0, validation_middleware_1.validationMiddleware)(walletAddressUpdate_dto_1.WalletAddressUpdateDto), walletAddressController.updateUserWalletAddress);
+router.delete("/walletAddress/:walletAddressId", auth_middleware_1.authMiddleware, walletAddressController.deleteUserWalletAddress);
 //CMC
 router.get("/getCmcMeta", auth_middleware_1.authMiddleware, cmcDataController.getMetaData);
 router.get("/getLatest", cmcDataController.getLatestData);

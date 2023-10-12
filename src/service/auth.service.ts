@@ -3,7 +3,6 @@ import { WalletAddressRepository } from "../repository/walletAddress.repository"
 import { RefreshToken, UserInterface } from "../types/user";
 import User from "../model/user.model";
 import { UserDto } from "../dto/user.dto";
-import { LogInDto } from "../dto/logIn.dto";
 import { TokenPayload } from "../types/tokenPayload";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";

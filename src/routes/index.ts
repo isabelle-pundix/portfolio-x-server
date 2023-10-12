@@ -4,7 +4,6 @@ import { NoteController } from "../controller/note.controller";
 import { UserController } from "../controller/user.controller";
 import { CmcDataController } from "../controller/cmcData.controller";
 import { FxcoredController } from "../controller/fxcored.controller";
-import { LogInDto } from "../dto/logIn.dto";
 import { NoteDto } from "../dto/note.dto";
 import { UserDto } from "../dto/user.dto";
 import { authMiddleware } from "../middleware/auth.middleware";
@@ -48,10 +47,10 @@ router.post("/note/:noteId", authMiddleware, validationMiddleware(NoteDto), note
 router.delete("/note/:noteId", authMiddleware, noteController.deleteUserNote);
 
 // Wallet Addresses
-router.get("/walletAddress",authMiddleware, walletAddressController.getUserWalletAddresseses); //get all wallet addresses for user 
-router.post("/walletAddress", authMiddleware, validationMiddleware(WalletAddressAddDto), walletAddressController.addUserWalletAddress); // add wallet address 
-router.post("/walletAddress/:walletAddressId", authMiddleware, validationMiddleware(WalletAddressUpdateDto), walletAddressController.updateUserWalletAddress); // update wallet address
-router.delete("/walletAddress/:walletAddressId", authMiddleware, walletAddressController.deleteUserWalletAddress); // delete wallet address 
+router.get("/walletAddress",authMiddleware, walletAddressController.getUserWalletAddresseses);
+router.post("/walletAddress", authMiddleware, validationMiddleware(WalletAddressAddDto), walletAddressController.addUserWalletAddress);
+router.post("/walletAddress/:walletAddressId", authMiddleware, validationMiddleware(WalletAddressUpdateDto), walletAddressController.updateUserWalletAddress);
+router.delete("/walletAddress/:walletAddressId", authMiddleware, walletAddressController.deleteUserWalletAddress);
 
 //CMC
 router.get("/getCmcMeta", authMiddleware, cmcDataController.getMetaData);

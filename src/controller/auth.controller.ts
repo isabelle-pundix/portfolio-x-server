@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { LogInDto } from "../dto/logIn.dto";
 import { UserDto } from "../dto/user.dto";
 import { AuthService } from "../service/auth.service";
 import User from "../model/user.model";
@@ -166,18 +165,14 @@ export class AuthController {
         const { walletAddress } = req.body;
 
         const walletExist = await this.WalletAddress.findOne({walletAddress});
-        console.log("Wallet exist? ", walletExist);
         if (walletExist != null) {
-            const walletAddressData: any = await this.WalletAddress.findOne({walletAddress}).populate('user'); // something is wrong with this
+            const walletAddressData: any = await this.WalletAddress.findOne({walletAddress}).populate('user');
             const user = walletAddressData.user;
-            console.log("is this logging???? ", user);
 
             if (user != null) {
                 const accessToken: string = this.authService.createAccessToken(user._id);
                 const refreshToken: string = this.authService.createRefreshToken(user._id);
-                console.log("Refresh token: ", refreshToken);
                 const refreshTokens = user.refreshToken; 
-                console.log("User refresh token: ", refreshTokens);
                 refreshTokens.push({ refreshToken });
                 await user.save();
                 logger.info(`Wallet Login: ${user.walletAddresses}`);
@@ -194,7 +189,6 @@ export class AuthController {
             try {
                 const { accessToken, newUser, refreshToken } = await this.authService.registerNewUserWithWallet(walletAddress);
                 newUser.refreshToken.push({ refreshToken }); 
-                console.log("Successful up to here");
                 await newUser.save();
                 logger.info(`Wallet Registration - New User: ${newUser.walletAddresses}`);
                 res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);

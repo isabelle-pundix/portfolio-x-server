@@ -33,7 +33,6 @@ class UserRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const allUsers = yield this.User.find({}).populate(['notes', 'walletAddresses']);
-                // const allUsers: Array<UserInterface> = await this.User.find({}, null, { populate: "notes" });
                 return allUsers;
             }
             catch (error) {
@@ -54,13 +53,6 @@ class UserRepository {
     }
     updateUser(id, field) {
         return __awaiter(this, void 0, void 0, function* () {
-            // const { email, walletAddress } = field
-            // if (email) {
-            //     if (await this.User.findOne({ email })) throw new UserException().alreadyExist()
-            // }
-            // if (walletAddress) {
-            //     if (await this.User.findOne({ walletAddress })) throw new UserException().walletAddressUsed()
-            // }
             try {
                 const updateUser = yield this.User.findByIdAndUpdate({ _id: id }, field, { new: true });
                 return updateUser;

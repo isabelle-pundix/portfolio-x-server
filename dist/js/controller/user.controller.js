@@ -29,17 +29,6 @@ class UserController {
                 throw error;
             }
         });
-        // public getUserByWalletAddress = async (req: Request, res: Response): Promise<void> => {
-        //     try {
-        //         const walletAddress = req.user
-        //         const user: UserInterface = await this.userService.getUserByWalletAddress(walletAddress as string);
-        //         logger.info(`App loaded with user: ${user.walletAddresses}`);
-        //         res.status(200).json({ user });
-        //     } catch (error) {
-        //         logger.error('Get User by wallet address error');
-        //         throw error
-        //     }
-        // }
         this.getUsers = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const users = yield this.userService.getUsers();
