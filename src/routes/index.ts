@@ -50,7 +50,7 @@ router.delete("/note/:noteId", authMiddleware, noteController.deleteUserNote);
 // Wallet Addresses
 router.get("/walletAddress",authMiddleware, walletAddressController.getUserWalletAddresseses); //get all wallet addresses for user 
 router.post("/walletAddress", authMiddleware, validationMiddleware(WalletAddressAddDto), walletAddressController.addUserWalletAddress); // add wallet address 
-router.post("walletAddress/:walletAddressId", authMiddleware, validationMiddleware(WalletAddressUpdateDto), walletAddressController.updateUserWalletAddress); // update wallet address
+router.post("/walletAddress/:walletAddressId", authMiddleware, validationMiddleware(WalletAddressUpdateDto), walletAddressController.updateUserWalletAddress); // update wallet address
 router.delete("/walletAddress/:walletAddressId", authMiddleware, walletAddressController.deleteUserWalletAddress); // delete wallet address 
 
 //CMC

@@ -65,14 +65,13 @@ export class WalletAddressRepository {
     walletAddressData: WalletAddressUpdateDto
   ): Promise<WalletAddressInterface | null> {
     try {
-      console.log("Repo");
       const updatedUserWalletAddress: UserInterface | null =
         await this.User.findByIdAndUpdate(
           { _id: userId, "walletAddresses.id": walletAddressId },
           {
-            $set: {
-              name: walletAddressData.name,
-            },
+              $set: {
+                  name: walletAddressData.name,
+              }
           }
         );
 
@@ -80,9 +79,9 @@ export class WalletAddressRepository {
         await this.WalletAddress.findByIdAndUpdate(
           { _id: walletAddressId },
           {
-            $set: {
-              name: walletAddressData.name,
-            },
+              $set: {
+                  name: walletAddressData.name,
+              }
           }
         );
 

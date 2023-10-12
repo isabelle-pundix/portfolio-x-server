@@ -64,16 +64,15 @@ class WalletAddressRepository {
     updateUserWalletAddress(userId, walletAddressId, walletAddressData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log("Repo");
                 const updatedUserWalletAddress = yield this.User.findByIdAndUpdate({ _id: userId, "walletAddresses.id": walletAddressId }, {
                     $set: {
                         name: walletAddressData.name,
-                    },
+                    }
                 });
                 const updatedWalletAddress = yield this.WalletAddress.findByIdAndUpdate({ _id: walletAddressId }, {
                     $set: {
                         name: walletAddressData.name,
-                    },
+                    }
                 });
                 if (updatedUserWalletAddress && updatedWalletAddress) {
                     updatedWalletAddress.user.notes = updatedUserWalletAddress.notes;
