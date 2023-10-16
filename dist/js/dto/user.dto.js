@@ -10,7 +10,7 @@ exports.UserDto = void 0;
 const class_validator_1 = require("class-validator");
 class UserDto {
 }
-exports.UserDto = UserDto;
 __decorate([
     (0, class_validator_1.IsBoolean)()
 ], UserDto.prototype, "status", void 0);
+exports.UserDto = UserDto;

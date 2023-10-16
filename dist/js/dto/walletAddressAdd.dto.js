@@ -10,7 +10,7 @@ exports.WalletAddressAddDto = void 0;
 const class_validator_1 = require("class-validator");
 class WalletAddressAddDto {
 }
-exports.WalletAddressAddDto = WalletAddressAddDto;
 __decorate([
     (0, class_validator_1.IsString)()
 ], WalletAddressAddDto.prototype, "walletAddress", void 0);
+exports.WalletAddressAddDto = WalletAddressAddDto;
