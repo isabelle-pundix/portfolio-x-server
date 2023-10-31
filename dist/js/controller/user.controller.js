@@ -17,15 +17,15 @@ const user_service_1 = require("../service/user.service");
 const logger_1 = __importDefault(require("../logs/logger"));
 class UserController {
     constructor() {
-        this.getUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.getUserById = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const id = req.user;
                 const user = yield this.userService.getUserById(id);
-                logger_1.default.info(`App loaded with user: ${user.walletAddress}`);
+                logger_1.default.info(`App loaded with user: ${user.walletAddresses}`);
                 res.status(200).json({ user });
             }
             catch (error) {
-                logger_1.default.error(`Get User error`);
+                logger_1.default.error(`Get User by id error`);
                 throw error;
             }
         });
@@ -53,35 +53,6 @@ class UserController {
             }
             catch (error) {
                 logger_1.default.error(`Add user error`);
-                throw error;
-            }
-        });
-        this.updateUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const updatedUser = yield this.userService.updateUser(req);
-                //logger.info(`User updated: ${updatedUser?.walletAddress} - ${JSON.stringify(Object.keys(req.body.fieldToEdit)[0])}`);
-                res.status(200).json({
-                    message: "User updated",
-                    user: updatedUser
-                });
-            }
-            catch (error) {
-                logger_1.default.error(`User update error`);
-                next(error);
-            }
-        });
-        this.deleteUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const deleteUser = yield this.userService.deleteUser(req);
-                const allUsers = yield this.userService.getUsers();
-                res.status(200).json({
-                    message: "User deleted",
-                    user: deleteUser,
-                    users: allUsers
-                });
-            }
-            catch (error) {
-                logger_1.default.error("Delete user error");
                 throw error;
             }
         });

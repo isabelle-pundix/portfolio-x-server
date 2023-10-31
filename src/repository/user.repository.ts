@@ -10,11 +10,10 @@ export class UserRepository {
         this.User = User;
     }
 
-    public async getUser(id: string): Promise<UserInterface> {
+    public async getUser(id: String): Promise<UserInterface> {
         try {
-            const user: UserInterface = await this.User.findById(id).populate('notes');
+            const user: UserInterface = await this.User.findById(id).populate(['notes', 'walletAddresses']);
             return user;
-
         } catch (error) {
             throw error;
         }
@@ -22,7 +21,7 @@ export class UserRepository {
 
     public async getUsers(): Promise<Array<UserInterface>> {
         try {
-            const allUsers: Array<UserInterface> = await this.User.find({}, null, { populate: "notes" });
+            const allUsers: UserInterface[] = await this.User.find({}).populate(['notes', 'walletAddresses']);
             return allUsers;
 
         } catch (error) {
@@ -37,19 +36,9 @@ export class UserRepository {
         } catch (error) {
             throw error;
         }
-
     }
 
     public async updateUser(id: String | Number, field: any): Promise<UserInterface | null> {
-        const { email, walletAddress } = field
-
-        if (email) {
-            if (await this.User.findOne({ email })) throw new UserException().alreadyExist()
-        }
-        if (walletAddress) {
-            if (await this.User.findOne({ walletAddress })) throw new UserException().walletAddressUsed()
-        }
-
         try {
             const updateUser: UserInterface | null = await this.User.findByIdAndUpdate(
                 { _id: id },

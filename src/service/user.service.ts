@@ -23,10 +23,6 @@ export class UserService {
     public async addUser(userData: UserDto): Promise<UserInterface> {
         //const body = req.body as Pick<UserInterface, "name" | "email" | "status">;
         const user: UserInterface = new User({
-            name: userData.name,
-            email: userData.email,
-            walletAddress: userData.walletAddress,
-            password: userData.password,
             status: userData.status
         });
         const newUser: UserInterface = await this.userRepository.addUser(user);

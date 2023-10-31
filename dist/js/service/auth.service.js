@@ -37,56 +37,62 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const user_repository_1 = require("../repository/user.repository");
+const walletAddress_repository_1 = require("../repository/walletAddress.repository");
 const user_model_1 = __importDefault(require("../model/user.model"));
-const bcrypt = __importStar(require("bcrypt"));
 const jwt = __importStar(require("jsonwebtoken"));
 const fs = __importStar(require("fs"));
-const userException_1 = require("../exceptions/userException");
+const walletAddress_model_1 = __importDefault(require("../model/walletAddress.model"));
 class AuthService {
     constructor() {
         this.privKey = fs.readFileSync("./server.private.key", "utf8");
         this.userRepository = new user_repository_1.UserRepository();
+        this.walletAddressRepository = new walletAddress_repository_1.WalletAddressRepository();
         this.User = user_model_1.default;
     }
-    matchPassword(logInData, user) {
+    // public async matchPassword(logInData: LogInDto, user: UserInterface): Promise<boolean> {
+    //     const passwordMatch: boolean = await bcrypt.compare(
+    //         logInData.password,
+    //         user.password
+    //     );
+    //     return passwordMatch;
+    // }
+    // public async registerNewUser(userData: UserDto): Promise<{ accessToken: string, newUser: UserInterface, refreshToken: string }> {
+    //     // if (await this.User.findOne({ email: userData.email })) {
+    //     //     throw new UserException().alreadyExist();
+    //     // }
+    //     if (await this.User.getUserByWalletAddress({ walletAddress: userData.walletAddress })) {
+    //         throw new UserException().walletAddressUsed();
+    //     }
+    //     // const bcryptHashedPassword: string = await bcrypt.hash(userData.password, 10);
+    //     const user: UserInterface = new User({
+    //         name: userData.name,
+    //         // email: userData.email,
+    //         walletAddress: userData.walletAddress,
+    //         // password: bcryptHashedPassword,
+    //         status: userData.status
+    //     });
+    //     const newUser: UserInterface = await this.userRepository.addUser(user);
+    //     const accessToken = this.createAccessToken(newUser._id)
+    //     const refreshToken = this.createRefreshToken(newUser._id)
+    //     // const cookie: any = this.createCookie(tokenData);
+    //     return { accessToken, newUser, refreshToken };
+    //     //(Oauth2.0??)
+    // }
+    registerNewUserWithWallet(newAddress) {
         return __awaiter(this, void 0, void 0, function* () {
-            const passwordMatch = yield bcrypt.compare(logInData.password, user.password);
-            return passwordMatch;
-        });
-    }
-    registerNewUser(userData) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (yield this.User.findOne({ email: userData.email })) {
-                throw new userException_1.UserException().alreadyExist();
-            }
-            if (yield this.User.findOne({ walletAddress: userData.walletAddress })) {
-                throw new userException_1.UserException().walletAddressUsed();
-            }
-            const bcryptHashedPassword = yield bcrypt.hash(userData.password, 10);
             const user = new user_model_1.default({
-                name: userData.name,
-                email: userData.email,
-                walletAddress: userData.walletAddress,
-                password: bcryptHashedPassword,
-                status: userData.status
-            });
-            const newUser = yield this.userRepository.addUser(user);
-            const accessToken = this.createAccessToken(newUser._id);
-            const refreshToken = this.createRefreshToken(newUser._id);
-            // const cookie: any = this.createCookie(tokenData);
-            return { accessToken, newUser, refreshToken };
-            //(Oauth2.0??)
-        });
-    }
-    registerNewUserWithWallet(walletAddress) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const user = new user_model_1.default({
-                walletAddress: walletAddress,
                 status: false
             });
             const newUser = yield this.userRepository.addUser(user);
+            const userId = newUser.id;
             const accessToken = this.createAccessToken(newUser._id);
             const refreshToken = this.createRefreshToken(newUser._id);
+            const walletAddress = new walletAddress_model_1.default({
+                walletAddress: newAddress,
+                name: "Wallet 1",
+                user: newUser
+            });
+            const newWalletAddress = yield this.walletAddressRepository.addWalletAddress(userId, walletAddress);
             // const cookie: any = this.createCookie(tokenData);
             return { accessToken, newUser, refreshToken };
             //(Oauth2.0??)

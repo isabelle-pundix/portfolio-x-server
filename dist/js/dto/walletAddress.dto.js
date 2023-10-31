@@ -6,11 +6,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserDto = void 0;
+exports.WalletAddressDto = void 0;
 const class_validator_1 = require("class-validator");
-class UserDto {
+class WalletAddressDto {
 }
 __decorate([
-    (0, class_validator_1.IsBoolean)()
-], UserDto.prototype, "status", void 0);
-exports.UserDto = UserDto;
+    (0, class_validator_1.IsString)()
+], WalletAddressDto.prototype, "walletAddress", void 0);
+__decorate([
+    (0, class_validator_1.IsString)()
+], WalletAddressDto.prototype, "name", void 0);
+exports.WalletAddressDto = WalletAddressDto;

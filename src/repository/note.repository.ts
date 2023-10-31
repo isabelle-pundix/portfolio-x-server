@@ -33,7 +33,7 @@ export class NoteRepository {
             //Save to notes collection
             await note.save();
             const newNote: NoteInterface = await this.Note.findById(note._id);
-            newNote.user.walletAddress = user.walletAddress;
+            newNote.user.walletAddresses = user.walletAddresses;
             return newNote;
         } catch (error) {
             throw error;
@@ -62,7 +62,7 @@ export class NoteRepository {
                 }
             );
             if (updatedNote && updatedUserNote) {
-                updatedNote.user.walletAddress = updatedUserNote.walletAddress
+                updatedNote.user.walletAddresses = updatedUserNote.walletAddresses
             }
             return updatedNote;
         } catch (error) {

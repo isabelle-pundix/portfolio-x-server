@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRepository = void 0;
 const user_model_1 = __importDefault(require("../model/user.model"));
-const userException_1 = require("../exceptions/userException");
 class UserRepository {
     constructor() {
         this.User = user_model_1.default;
@@ -22,7 +21,7 @@ class UserRepository {
     getUser(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield this.User.findById(id).populate('notes');
+                const user = yield this.User.findById(id).populate(['notes', 'walletAddresses']);
                 return user;
             }
             catch (error) {
@@ -33,7 +32,7 @@ class UserRepository {
     getUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const allUsers = yield this.User.find({}, null, { populate: "notes" });
+                const allUsers = yield this.User.find({}).populate(['notes', 'walletAddresses']);
                 return allUsers;
             }
             catch (error) {
@@ -54,15 +53,6 @@ class UserRepository {
     }
     updateUser(id, field) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { email, walletAddress } = field;
-            if (email) {
-                if (yield this.User.findOne({ email }))
-                    throw new userException_1.UserException().alreadyExist();
-            }
-            if (walletAddress) {
-                if (yield this.User.findOne({ walletAddress }))
-                    throw new userException_1.UserException().walletAddressUsed();
-            }
             try {
                 const updateUser = yield this.User.findByIdAndUpdate({ _id: id }, field, { new: true });
                 return updateUser;

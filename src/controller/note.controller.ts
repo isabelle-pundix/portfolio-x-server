@@ -33,7 +33,7 @@ export class NoteController {
             const userId: String = req.user.toString();
             const noteData: NoteDto = req.body;
             const newNote: NoteInterface = await this.noteService.addUserNote(userId, noteData);
-            logger.info(`New note added: ${newNote.user.walletAddress} - ${newNote.id}`)
+            logger.info(`New note added: ${newNote.user.walletAddresses} - ${newNote.id}`)
             res.status(201).json(
                 {
                     message: "Note added",
@@ -53,7 +53,7 @@ export class NoteController {
             const noteData: NoteDto = req.body;
             const updatedNote: NoteInterface | null = await this.noteService.updateUserNote(userId, noteId, noteData);
             const userNotes: Array<NoteInterface> = await this.noteService.getUserNotes(userId);
-            logger.info(`Note updated: ${updatedNote?.user.walletAddress} - ${updatedNote?.id}`);
+            logger.info(`Note updated: ${updatedNote?.user.walletAddresses} - ${updatedNote?.id}`);
             res.status(201).json(
                 {
                     message: "Note updated",
@@ -73,7 +73,7 @@ export class NoteController {
             const noteId: String = req.params.noteId;
             const deletedNote: NoteInterface | null = await this.noteService.deleteUserNote(userId, noteId);
             const userNotes: Array<NoteInterface> = await this.noteService.getUserNotes(userId);
-            logger.info(`Note deleted: ${deletedNote?.user.walletAddress}`)
+            logger.info(`Note deleted: ${deletedNote?.user.walletAddresses}`)
             res.status(200).json(
                 {
                     message: "Note deleted",

@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { LogInDto } from "../dto/logIn.dto";
 import { UserDto } from "../dto/user.dto";
 import { AuthService } from "../service/auth.service";
 import User from "../model/user.model";
+import WalletAddress from "../model/walletAddress.model";
 import Token from "../types/token";
 import { UserInterface } from "../types/user";
 import { CredentialsException } from "./../exceptions/credentialsException";
@@ -24,63 +24,65 @@ export class AuthController {
 
     private authService: AuthService;
     private User: any;
+    private WalletAddress: any;
 
     constructor() {
         this.authService = new AuthService();
         this.User = User;
+        this.WalletAddress = WalletAddress;
     }
 
-    public registerNewUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-        try {
-            const userData: UserDto = req.body;
-            const { accessToken, newUser, refreshToken } = await this.authService.registerNewUser(userData);
-            newUser.refreshToken.push({ refreshToken })
-            await newUser.save()
-            logger.info(`New User Registration: ${newUser.email}`);
-            res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-            res.status(200).json(
-                {
-                    message: "New user registered",
-                    user: newUser,
-                    accessToken
-                }
-            );
-        } catch (error) {
-            logger.error(`User registration error`);
-            next(error);
-        }
-    }
+    // public registerNewUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    //     try {
+    //         const userData: UserDto = req.body;
+    //         const { accessToken, newUser, refreshToken } = await this.authService.registerNewUser(userData);
+    //         newUser.refreshToken.push({ refreshToken })
+    //         await newUser.save()
+    //         logger.info(`New User Registration: ${newUser.walletAddress}`);
+    //         res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+    //         res.status(200).json(
+    //             {
+    //                 message: "New user registered",
+    //                 user: newUser,
+    //                 accessToken
+    //             }
+    //         );
+    //     } catch (error) {
+    //         logger.error(`User registration error`);
+    //         next(error);
+    //     }
+    // }
 
-    public login = async (req: Request, res: Response, next: NextFunction) => {
-        const logInData: LogInDto = req.body;
-        const user: UserInterface = await this.User.findOne({ email: logInData.email }).populate('notes');
-        if (user) {
-            // console.log(user);
-            const passwordMatch: boolean = await this.authService.matchPassword(logInData, user);
-            // console.log(passwordMatch);
-            if (passwordMatch) {
-                const accessToken: string = this.authService.createAccessToken(user._id);
-                const refreshToken: string = this.authService.createRefreshToken(user._id)
-                user.refreshToken.push({ refreshToken })
-                await user.save()
-                logger.info(`Login: ${user.walletAddress}`);
-                res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-                res.status(200).json(
-                    {
-                        message: "Login success",
-                        user: user,
-                        accessToken
-                    }
-                );
-            } else {
-                logger.info(`Password mismatch: ${user.walletAddress}`);
-                next(new CredentialsException());
-            }
-        } else {
-            logger.error(`Login error`);
-            next(new CredentialsException());
-        }
-    }
+    // public login = async (req: Request, res: Response, next: NextFunction) => {
+    //     const logInData: LogInDto = req.body;
+    //     const user: UserInterface = await this.User.find({ wallet: logInData.walletAddress }).populate('notes');
+    //     if (user) {
+    //         // console.log(user);
+    //         const passwordMatch: boolean = await this.authService.matchPassword(logInData, user);
+    //         // console.log(passwordMatch);
+    //         if (passwordMatch) {
+    //             const accessToken: string = this.authService.createAccessToken(user._id);
+    //             const refreshToken: string = this.authService.createRefreshToken(user._id)
+    //             user.refreshToken.push({ refreshToken })
+    //             await user.save()
+    //             logger.info(`Login: ${user.walletAddress}`);
+    //             res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+    //             res.status(200).json(
+    //                 {
+    //                     message: "Login success",
+    //                     user: user,
+    //                     accessToken
+    //                 }
+    //             );
+    //         } else {
+    //             logger.info(`Password mismatch: ${user.walletAddress}`);
+    //             next(new CredentialsException());
+    //         }
+    //     } else {
+    //         logger.error(`Login error`);
+    //         next(new CredentialsException());
+    //     }
+    // }
 
     public refreshToken = async (req: Request, res: Response, next: NextFunction) => {
         const { signedCookies = {} } = req;
@@ -142,7 +144,7 @@ export class AuthController {
                     } else {
                         next(new CredentialsException())
                     }
-                    logger.info(`Logout: ${user.walletAddress}`);
+                    logger.info(`Logout: ${user.walletAddresses}`);
                     res.clearCookie("refreshToken", COOKIE_OPTIONS)
                     res.status(200).json({ success: true })
 
@@ -160,28 +162,34 @@ export class AuthController {
     }
 
     public walletLogin = async (req: Request, res: Response, next: NextFunction) => {
-        const { walletAddress } = req.body
-        const user: UserInterface = await this.User.findOne({ walletAddress }).populate('notes');
-        if (user) {
-            const accessToken: string = this.authService.createAccessToken(user._id);
-            const refreshToken: string = this.authService.createRefreshToken(user._id)
-            user.refreshToken.push({ refreshToken })
-            await user.save()
-            logger.info(`Wallet Login: ${user.walletAddress}`);
-            res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-            res.status(200).json(
-                {
-                    message: "Login success",
-                    user: user,
-                    accessToken
-                }
-            );
+        const { walletAddress } = req.body;
+        const walletExist = await this.WalletAddress.findOne({walletAddress});
+        if (walletExist != null) {
+            const walletAddressData: any = await this.WalletAddress.findOne({walletAddress}).populate('user');
+            const user = walletAddressData.user;
+
+            if (user != null) {
+                const accessToken: string = this.authService.createAccessToken(user._id);
+                const refreshToken: string = this.authService.createRefreshToken(user._id);
+                const refreshTokens = user.refreshToken; 
+                refreshTokens.push({ refreshToken });
+                await user.save();
+                logger.info(`Wallet Login: ${user.walletAddresses}`);
+                res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+                res.status(200).json(
+                    {
+                        message: "Login success",
+                        user: user,
+                        accessToken
+                    }
+                );
+            } 
         } else {
             try {
                 const { accessToken, newUser, refreshToken } = await this.authService.registerNewUserWithWallet(walletAddress);
-                newUser.refreshToken.push({ refreshToken })
-                await newUser.save()
-                logger.info(`Wallet Registration - New User: ${newUser.walletAddress}`);
+                newUser.refreshToken.push({ refreshToken }); 
+                await newUser.save();
+                logger.info(`Wallet Registration - New User: ${newUser.walletAddresses}`);
                 res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
                 res.status(200).json(
                     {
@@ -195,6 +203,15 @@ export class AuthController {
                 next(error);
             }
         }
+        // const user: UserInterface = await this.WalletAddress.findOne({walletAddress}).populate('user'); 
+        // console.log("What is this user? ", user);
+        // console.log("USERID???: ", userId);
+        // const user: UserInterface = await this.User.findOne({userId}).populate('notes');
+        // console.log("User: ", user);
+
+        // const walletAddress: UserInterface = await this.WalletAddress.findOne({ walletAddress }).id;
+        // user.populate('notes');
+        
     }
     
     public test = async (req: Request, res: Response, next: NextFunction) => {

@@ -39,6 +39,7 @@ const authTokenException_1 = require("../exceptions/authTokenException");
 function authMiddleware(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         const authHeader = String(req.headers['authorization'] || '');
+        console.log("Auth header: ", authHeader);
         if (authHeader.startsWith('Bearer ')) {
             try {
                 const accessToken = authHeader.substring(7, authHeader.length);

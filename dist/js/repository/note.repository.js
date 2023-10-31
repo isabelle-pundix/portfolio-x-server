@@ -41,7 +41,7 @@ class NoteRepository {
                 //Save to notes collection
                 yield note.save();
                 const newNote = yield this.Note.findById(note._id);
-                newNote.user.walletAddress = user.walletAddress;
+                newNote.user.walletAddresses = user.walletAddresses;
                 return newNote;
             }
             catch (error) {
@@ -66,7 +66,7 @@ class NoteRepository {
                     }
                 });
                 if (updatedNote && updatedUserNote) {
-                    updatedNote.user.walletAddress = updatedUserNote.walletAddress;
+                    updatedNote.user.walletAddresses = updatedUserNote.walletAddresses;
                 }
                 return updatedNote;
             }

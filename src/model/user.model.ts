@@ -20,22 +20,23 @@ const UserSchema: Schema = new Schema(
         seq: {
             type: Number
         },
-        name: {
-            type: String,
-            // required: true
-        },
-        email: {
-            type: String,
-            // required: true
-        },
-        walletAddress: {
-            type: String,
+        // name: {
+        //     type: String,
+        //     // required: true
+        // },
+        // email: {
+        //     type: String,
+        //     // required: true
+        // },
+        walletAddresses: [{
+            type: Schema.Types.ObjectId,
+            ref: "WalletAddress",
             required: true
-        },
-        password: {
-            type: String,
-            // required: true
-        },
+        }],
+        // password: {
+        //     type: String,
+        //     // required: true
+        // },
         status: {
             type: Boolean,
             required: true

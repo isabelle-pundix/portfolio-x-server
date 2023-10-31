@@ -12,14 +12,14 @@ export class UserController {
         this.userService = new UserService();
     }
 
-    public getUser = async (req: Request, res: Response): Promise<void> => {
+    public getUserById = async (req: Request, res: Response): Promise<void> => {
         try {
-            const id = req.user
+            const id = req.user;
             const user: UserInterface = await this.userService.getUserById(id as string);
-            logger.info(`App loaded with user: ${user.walletAddress}`);
+            logger.info(`App loaded with user: ${user.walletAddresses}`);
             res.status(200).json({ user });
         } catch (error) {
-            logger.error(`Get User error`);
+            logger.error(`Get User by id error`);
             throw error;
         }
     }
@@ -55,37 +55,37 @@ export class UserController {
         }
     }
 
-    public updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-        try {
-            const updatedUser: UserInterface | null = await this.userService.updateUser(req);
-            //logger.info(`User updated: ${updatedUser?.walletAddress} - ${JSON.stringify(Object.keys(req.body.fieldToEdit)[0])}`);
-            res.status(200).json(
-                {
-                    message: "User updated",
-                    user: updatedUser
-                }
-            );
-        } catch (error) {
-            logger.error(`User update error`);
-            next(error)
-        }
-    }
+    // public updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    //     try {
+    //         const updatedUser: UserInterface | null = await this.userService.updateUser(req);
+    //         //logger.info(`User updated: ${updatedUser?.walletAddress} - ${JSON.stringify(Object.keys(req.body.fieldToEdit)[0])}`);
+    //         res.status(200).json(
+    //             {
+    //                 message: "User updated",
+    //                 user: updatedUser
+    //             }
+    //         );
+    //     } catch (error) {
+    //         logger.error(`User update error`);
+    //         next(error)
+    //     }
+    // }
 
-    public deleteUser = async (req: Request, res: Response): Promise<void> => {
-        try {
-            const deleteUser: UserInterface | null = await this.userService.deleteUser(req);
-            const allUsers: Array<UserInterface> = await this.userService.getUsers();
-            res.status(200).json(
-                {
-                    message: "User deleted",
-                    user: deleteUser,
-                    users: allUsers
-                }
-            );
-        } catch (error) {
-            logger.error("Delete user error");
-            throw error;
-        }
-    }
+    // public deleteUser = async (req: Request, res: Response): Promise<void> => {
+    //     try {
+    //         const deleteUser: UserInterface | null = await this.userService.deleteUser(req);
+    //         const allUsers: Array<UserInterface> = await this.userService.getUsers();
+    //         res.status(200).json(
+    //             {
+    //                 message: "User deleted",
+    //                 user: deleteUser,
+    //                 users: allUsers
+    //             }
+    //         );
+    //     } catch (error) {
+    //         logger.error("Delete user error");
+    //         throw error;
+    //     }
+    // }
 
 }

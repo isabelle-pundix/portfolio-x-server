@@ -37,7 +37,7 @@ class NoteController {
                 const userId = req.user.toString();
                 const noteData = req.body;
                 const newNote = yield this.noteService.addUserNote(userId, noteData);
-                logger_1.default.info(`New note added: ${newNote.user.walletAddress} - ${newNote.id}`);
+                logger_1.default.info(`New note added: ${newNote.user.walletAddresses} - ${newNote.id}`);
                 res.status(201).json({
                     message: "Note added",
                     note: newNote
@@ -55,7 +55,7 @@ class NoteController {
                 const noteData = req.body;
                 const updatedNote = yield this.noteService.updateUserNote(userId, noteId, noteData);
                 const userNotes = yield this.noteService.getUserNotes(userId);
-                logger_1.default.info(`Note updated: ${updatedNote === null || updatedNote === void 0 ? void 0 : updatedNote.user.walletAddress} - ${updatedNote === null || updatedNote === void 0 ? void 0 : updatedNote.id}`);
+                logger_1.default.info(`Note updated: ${updatedNote === null || updatedNote === void 0 ? void 0 : updatedNote.user.walletAddresses} - ${updatedNote === null || updatedNote === void 0 ? void 0 : updatedNote.id}`);
                 res.status(201).json({
                     message: "Note updated",
                     note: updatedNote,
@@ -73,7 +73,7 @@ class NoteController {
                 const noteId = req.params.noteId;
                 const deletedNote = yield this.noteService.deleteUserNote(userId, noteId);
                 const userNotes = yield this.noteService.getUserNotes(userId);
-                logger_1.default.info(`Note deleted: ${deletedNote === null || deletedNote === void 0 ? void 0 : deletedNote.user.walletAddress}`);
+                logger_1.default.info(`Note deleted: ${deletedNote === null || deletedNote === void 0 ? void 0 : deletedNote.user.walletAddresses}`);
                 res.status(200).json({
                     message: "Note deleted",
                     note: deletedNote,

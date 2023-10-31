@@ -1,5 +1,6 @@
 import { Document } from "mongoose";
 import { NoteInterface } from "./note";
+import { WalletAddressInterface } from "./walletAddress";
 
 export interface RefreshToken {
     refreshToken: string
@@ -9,11 +10,11 @@ export interface RefreshToken {
 export interface UserInterface extends Document {
     _id: string
     seq: number
-    name: string
-    email: string
-    walletAddress: string
-    password: string
     status: boolean
-    notes: Array<NoteInterface>
+    // name: string
+    // email: string
+    // password: string
+    walletAddresses: WalletAddressInterface[]
+    notes: NoteInterface[]
     refreshToken: RefreshToken[]
 }

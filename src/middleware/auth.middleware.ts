@@ -5,9 +5,11 @@ import User from "../model/user.model";
 import { TokenPayload } from "../types/tokenPayload";
 import { AuthTokenException } from "../exceptions/authTokenException";
 import { UserInterface } from "../types/user";
+import logger from "../logs/logger";
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
     const authHeader = String(req.headers['authorization'] || '');
+    console.log("Auth header: ", authHeader);
     if (authHeader.startsWith('Bearer ')) {
         try {
             const accessToken = authHeader.substring(7, authHeader.length);
