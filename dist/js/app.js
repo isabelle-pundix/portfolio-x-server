@@ -20,7 +20,7 @@ const CLIENT_LOCAL_DEV = "https://localhost:3000";
 const CLIENT_PROD = "https://portfolio-x.xyz";
 //Initialize middlewares/functions and routes
 const corsOptions = {
-    origin: CLIENT_LOCAL_DEV,
+    origin: "https://localhost:3000",
     methods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
     credentials: true,
 };
