@@ -10,7 +10,7 @@ ENV NODE_ENV production
 
 COPY package*.json ./
 
-EXPOSE 5000
+EXPOSE 5004
 
 RUN npm run build
 

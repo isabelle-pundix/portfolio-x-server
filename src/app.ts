@@ -11,17 +11,17 @@ import compression from "compression";
 import router from "./routes/index";
 
 const app: Express = express();
-const PORT: string | number = process.env.PORT || 5000;
+const PORT: string | number = process.env.PORT || 5004;
 
 const prefix = "/api";
 
 const CLIENT_LOCAL_PROD: string = "http://localhost:3000";
 const CLIENT_LOCAL_DEV: string = "https://localhost:3000";
-const CLIENT_PROD: string = "https://portfolio-x.xyz";
+const CLIENT_PROD: string = "https://staging.portfolio-x.xyz";
 
 //Initialize middlewares/functions and routes
 const corsOptions = {
-    origin: "http://localhost:3000",
+    origin: CLIENT_PROD,
     methods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
     credentials: true,
 }
@@ -43,6 +43,6 @@ https
             cert: fs.readFileSync("./sslcert/fxportfolio.crt")
         },
         app
-    ).listen(5000, () => {
-        console.log("Https server running on port 5000")
+    ).listen(5004, () => {
+        console.log("Https server running on port 5004")
     });
