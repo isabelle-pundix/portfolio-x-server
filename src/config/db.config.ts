@@ -15,7 +15,9 @@ export const connectDb = (app: Express) => {
     const options = {
         dbName: `portfolio`,
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        minPoolSize: 10,
+        maxPoolSize: 10,
     } as ConnectOptions;
 
     mongoose.connect(connectionUrl, options)
