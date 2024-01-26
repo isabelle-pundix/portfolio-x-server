@@ -12,7 +12,7 @@
   "author": "Malcolm Tan <malcolm@pundix.com>",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.2.4",
+    "axios": "^1.6.7",
     "bcrypt": "^5.1.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
