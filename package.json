@@ -41,7 +41,7 @@
     "class-validator": "^0.13.2",
     "concurrently": "^7.5.0",
     "dotenv": "^16.0.3",
-    "nodemon": "^2.0.20"
+    "nodemon": "^3.1.0"
   },
   "repository": {
     "type": "git",
